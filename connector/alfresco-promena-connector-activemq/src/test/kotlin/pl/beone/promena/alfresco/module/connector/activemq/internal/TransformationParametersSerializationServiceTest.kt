@@ -25,6 +25,7 @@ import pl.beone.promena.alfresco.module.core.contract.transformation.post.PostTr
 import pl.beone.promena.alfresco.module.core.external.transformation.post.ReflectionPostTransformationExecutorInjector
 import pl.beone.promena.core.internal.serialization.KryoSerializationService
 import pl.beone.promena.transformer.contract.transformation.Transformation
+import java.util.*
 
 @RunWith(AlfrescoTestRunner::class)
 class TransformationParametersSerializationServiceTest : AbstractUtilsAlfrescoIT() {
@@ -42,11 +43,13 @@ class TransformationParametersSerializationServiceTest : AbstractUtilsAlfrescoIT
 
     @Test
     fun serializeAndDeserialize() {
+        val newName = UUID.randomUUID().toString()
+
         val nodeRef = createOrGetIntegrationTestsFolder().createNode()
         val transformationParameters = TransformationParameters(
             transformation,
             nodeDescriptor,
-            TestPostTransformationExecutor,
+            TestPostTransformationExecutor(newName),
             retry,
             dataDescriptor,
             nodesChecksum,
@@ -69,14 +72,16 @@ class TransformationParametersSerializationServiceTest : AbstractUtilsAlfrescoIT
             postTransformationExecutor shouldNotBe null
             postTransformationExecutorInjector.inject(postTransformationExecutor!!)
             postTransformationExecutor!!.execute(mockk(), mockk(), transformationExecutionResult(nodeRef))
-            nodeRef.getProperty(PROP_NAME) shouldBe "changed"
+            nodeRef.getProperty(PROP_NAME) shouldBe newName
         }
     }
 
-    private object TestPostTransformationExecutor : PostTransformationExecutor() {
+    private class TestPostTransformationExecutor(
+        private val newName: String
+    ) : PostTransformationExecutor() {
 
         override fun execute(transformation: Transformation, nodeDescriptor: NodeDescriptor, result: TransformationExecutionResult) {
-            serviceRegistry.nodeService.setProperty(result.nodeRefs[0], PROP_NAME, "changed")
+            serviceRegistry.nodeService.setProperty(result.nodeRefs[0], PROP_NAME, newName)
         }
     }
 }

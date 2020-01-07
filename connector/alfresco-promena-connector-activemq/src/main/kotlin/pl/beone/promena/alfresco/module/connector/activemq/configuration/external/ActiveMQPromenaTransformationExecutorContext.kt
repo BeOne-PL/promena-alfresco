@@ -1,5 +1,6 @@
 package pl.beone.promena.alfresco.module.connector.activemq.configuration.external
 
+import org.alfresco.service.ServiceRegistry
 import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -29,7 +30,8 @@ class ActiveMQPromenaTransformationExecutorContext {
         nodesChecksumGenerator: NodesChecksumGenerator,
         dataDescriptorGetter: DataDescriptorGetter,
         transformerSender: TransformerSender,
-        authorizationService: AuthorizationService
+        authorizationService: AuthorizationService,
+        serviceRegistry: ServiceRegistry
     ) =
         ActiveMQPromenaTransformationExecutor(
             externalCommunicationParameters,
@@ -40,6 +42,7 @@ class ActiveMQPromenaTransformationExecutorContext {
             nodesChecksumGenerator,
             dataDescriptorGetter,
             transformerSender,
-            authorizationService
+            authorizationService,
+            serviceRegistry
         )
 }

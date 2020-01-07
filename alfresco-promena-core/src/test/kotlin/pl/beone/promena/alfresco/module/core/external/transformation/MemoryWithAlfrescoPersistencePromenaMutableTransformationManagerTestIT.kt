@@ -87,7 +87,7 @@ class MemoryWithAlfrescoPersistencePromenaMutableTransformationManagerTestIT : A
             }
 
             launch {
-                delay(500)
+                delay(1000)
                 shouldThrowExactly<RuntimeException> {
                     promenaMutableTransformationManager.getResult(transformationExecution, ZERO)
                 }.message shouldBe exception.message

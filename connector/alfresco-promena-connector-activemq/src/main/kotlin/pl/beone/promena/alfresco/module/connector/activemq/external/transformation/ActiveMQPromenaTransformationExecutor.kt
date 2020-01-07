@@ -1,7 +1,10 @@
 package pl.beone.promena.alfresco.module.connector.activemq.external.transformation
 
 import mu.KotlinLogging
+import org.alfresco.service.ServiceRegistry
+import org.alfresco.service.cmr.repository.NodeRef
 import pl.beone.promena.alfresco.module.connector.activemq.delivery.activemq.TransformerSender
+import pl.beone.promena.alfresco.module.core.applicationmodel.model.PromenaModel.PROPERTY_EXECUTION_IDS
 import pl.beone.promena.alfresco.module.core.applicationmodel.node.NodeDescriptor
 import pl.beone.promena.alfresco.module.core.applicationmodel.node.toNodeRefs
 import pl.beone.promena.alfresco.module.core.applicationmodel.retry.Retry
@@ -19,6 +22,7 @@ import pl.beone.promena.core.applicationmodel.transformation.transformationDescr
 import pl.beone.promena.transformer.contract.communication.CommunicationParameters
 import pl.beone.promena.transformer.contract.data.DataDescriptor
 import pl.beone.promena.transformer.contract.transformation.Transformation
+import java.io.Serializable
 
 class ActiveMQPromenaTransformationExecutor(
     private val externalCommunicationParameters: CommunicationParameters,
@@ -29,7 +33,8 @@ class ActiveMQPromenaTransformationExecutor(
     private val nodesChecksumGenerator: NodesChecksumGenerator,
     private val dataDescriptorGetter: DataDescriptorGetter,
     private val transformerSender: TransformerSender,
-    private val authorizationService: AuthorizationService
+    private val authorizationService: AuthorizationService,
+    private val serviceRegistry: ServiceRegistry
 ) : PromenaTransformationExecutor {
 
     companion object {
@@ -53,6 +58,7 @@ class ActiveMQPromenaTransformationExecutor(
         val dataDescriptor = dataDescriptorGetter.get(nodeDescriptor)
 
         val transformationExecution = promenaMutableTransformationManager.startTransformation()
+        addExecutionIdInNewTransaction(nodeRefs, transformationExecution.id)
 
         logger.start(transformation, nodeDescriptor)
 
@@ -70,6 +76,18 @@ class ActiveMQPromenaTransformationExecutor(
         execute(transformationExecution.id, transformation, dataDescriptor, transformationParameters)
 
         return transformationExecution
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun addExecutionIdInNewTransaction(nodeRefs: List<NodeRef>, executionId: String) {
+        serviceRegistry.retryingTransactionHelper.doInTransaction({
+            nodeRefs.forEach { nodeRef ->
+                val currentExecutionIds = ((serviceRegistry.nodeService.getProperty(nodeRef, PROPERTY_EXECUTION_IDS) as List<String>?) ?: emptyList())
+                val updatedExecutionIds = currentExecutionIds + executionId
+
+                serviceRegistry.nodeService.setProperty(nodeRef, PROPERTY_EXECUTION_IDS, updatedExecutionIds.toMutableList() as Serializable)
+            }
+        }, false, true)
     }
 
     internal fun execute(

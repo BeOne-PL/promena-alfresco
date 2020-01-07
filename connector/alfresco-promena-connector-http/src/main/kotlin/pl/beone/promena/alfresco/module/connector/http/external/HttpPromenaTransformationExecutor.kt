@@ -7,7 +7,9 @@ import kotlinx.coroutines.launch
 import mu.KotlinLogging
 import org.alfresco.service.ServiceRegistry
 import org.alfresco.service.cmr.repository.InvalidNodeRefException
+import org.alfresco.service.cmr.repository.NodeRef
 import pl.beone.promena.alfresco.module.core.applicationmodel.exception.NodesInconsistencyException
+import pl.beone.promena.alfresco.module.core.applicationmodel.model.PromenaModel.PROPERTY_EXECUTION_IDS
 import pl.beone.promena.alfresco.module.core.applicationmodel.node.NodeDescriptor
 import pl.beone.promena.alfresco.module.core.applicationmodel.node.toNodeRefs
 import pl.beone.promena.alfresco.module.core.applicationmodel.retry.Retry
@@ -29,6 +31,7 @@ import pl.beone.promena.transformer.contract.communication.CommunicationParamete
 import pl.beone.promena.transformer.contract.data.DataDescriptor
 import pl.beone.promena.transformer.contract.data.TransformedDataDescriptor
 import pl.beone.promena.transformer.contract.transformation.Transformation
+import java.io.Serializable
 import java.util.concurrent.Executors
 
 class HttpPromenaTransformationExecutor(
@@ -74,6 +77,7 @@ class HttpPromenaTransformationExecutor(
         val dataDescriptor = dataDescriptorGetter.get(nodeDescriptor)
 
         val transformationExecution = promenaMutableTransformationManager.startTransformation()
+        addExecutionIdInNewTransaction(nodeRefs, transformationExecution.id)
 
         logger.start(transformation, nodeDescriptor)
 
@@ -94,6 +98,18 @@ class HttpPromenaTransformationExecutor(
         }
 
         return transformationExecution
+    }
+
+    @Suppress("UNCHECKED_CAST")
+    private fun addExecutionIdInNewTransaction(nodeRefs: List<NodeRef>, executionId: String) {
+        serviceRegistry.retryingTransactionHelper.doInTransaction({
+            nodeRefs.forEach { nodeRef ->
+                val currentExecutionIds = ((serviceRegistry.nodeService.getProperty(nodeRef, PROPERTY_EXECUTION_IDS) as List<String>?) ?: emptyList())
+                val updatedExecutionIds = currentExecutionIds + executionId
+
+                serviceRegistry.nodeService.setProperty(nodeRef, PROPERTY_EXECUTION_IDS, updatedExecutionIds.toMutableList() as Serializable)
+            }
+        }, false, true)
     }
 
     private fun determineRetry(retry: Retry?): Retry =

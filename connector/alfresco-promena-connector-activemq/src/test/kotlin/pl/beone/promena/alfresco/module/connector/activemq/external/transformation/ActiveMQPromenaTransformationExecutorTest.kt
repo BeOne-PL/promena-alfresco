@@ -3,6 +3,8 @@ package pl.beone.promena.alfresco.module.connector.activemq.external.transformat
 import io.kotlintest.shouldBe
 import io.kotlintest.shouldThrowExactly
 import io.mockk.*
+import org.alfresco.repo.transaction.RetryingTransactionHelper
+import org.alfresco.service.ServiceRegistry
 import org.junit.Before
 import org.junit.Test
 import pl.beone.promena.alfresco.module.connector.activemq.TestConstants.attempt
@@ -58,6 +60,7 @@ class ActiveMQPromenaTransformationExecutorTest {
     private lateinit var dataDescriptorGetter: DataDescriptorGetter
     private lateinit var transformerSender: TransformerSender
     private lateinit var authorizationService: AuthorizationService
+    private lateinit var serviceRegistry: ServiceRegistry
 
     @Before
     fun setUp() {
@@ -83,6 +86,11 @@ class ActiveMQPromenaTransformationExecutorTest {
         authorizationService = mockk {
             every { getCurrentUser() } returns userName
         }
+        serviceRegistry = mockk {
+            every { retryingTransactionHelper } returns mockk {
+                every { doInTransaction(any<RetryingTransactionHelper.RetryingTransactionCallback<Unit>>(), false, true) } just Runs
+            }
+        }
     }
 
     @Test
@@ -96,7 +104,8 @@ class ActiveMQPromenaTransformationExecutorTest {
             nodesChecksumGenerator,
             dataDescriptorGetter,
             transformerSender,
-            authorizationService
+            authorizationService,
+            serviceRegistry
         ).execute(
             transformation,
             nodeDescriptor,
@@ -119,7 +128,8 @@ class ActiveMQPromenaTransformationExecutorTest {
             nodesChecksumGenerator,
             dataDescriptorGetter,
             transformerSender,
-            authorizationService
+            authorizationService,
+            serviceRegistry
         ).execute(
             transformation,
             nodeDescriptor,
@@ -146,7 +156,8 @@ class ActiveMQPromenaTransformationExecutorTest {
                 nodesChecksumGenerator,
                 dataDescriptorGetter,
                 transformerSender,
-                authorizationService
+                authorizationService,
+                serviceRegistry
             ).execute(
                 transformation,
                 nodeDescriptor,
@@ -172,7 +183,8 @@ class ActiveMQPromenaTransformationExecutorTest {
                 nodesChecksumGenerator,
                 dataDescriptorGetter,
                 transformerSender,
-                authorizationService
+                authorizationService,
+                serviceRegistry
             ).execute(
                 transformation,
                 nodeDescriptor,

@@ -7,6 +7,8 @@ import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
+import org.alfresco.repo.transaction.RetryingTransactionHelper
+import org.alfresco.service.ServiceRegistry
 import org.alfresco.service.cmr.repository.InvalidNodeRefException
 import org.junit.After
 import org.junit.Before
@@ -56,6 +58,7 @@ class HttpPromenaTransformationExecutorTest {
     private lateinit var dataDescriptorGetter: DataDescriptorGetter
     private lateinit var authorizationService: AuthorizationService
     private lateinit var serializationService: SerializationService
+    private lateinit var serviceRegistry: ServiceRegistry
 
     private lateinit var httpPromenaTransformationExecutor: HttpPromenaTransformationExecutor
 
@@ -83,6 +86,11 @@ class HttpPromenaTransformationExecutorTest {
                 deserialize(performedTransformationDescriptorBytes, PerformedTransformationDescriptor::class.java)
             } returns performedTransformationDescriptor
         }
+        serviceRegistry = mockk {
+            every { retryingTransactionHelper } returns mockk {
+                every { doInTransaction(any<RetryingTransactionHelper.RetryingTransactionCallback<Unit>>(), false, true) } just Runs
+            }
+        }
 
         startServer()
 
@@ -101,7 +109,7 @@ class HttpPromenaTransformationExecutorTest {
             mockk(),
             mockk(),
             authorizationService,
-            mockk(),
+            serviceRegistry,
             serializationService
         )
     }

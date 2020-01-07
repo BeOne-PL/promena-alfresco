@@ -9,7 +9,6 @@ import org.alfresco.service.namespace.NamespaceService.CONTENT_MODEL_1_0_URI
 import org.alfresco.service.namespace.QName
 import org.alfresco.service.namespace.QName.createQName
 import pl.beone.promena.alfresco.module.core.applicationmodel.model.PromenaModel.PROPERTY_EXECUTION_ID
-import pl.beone.promena.alfresco.module.core.applicationmodel.model.PromenaModel.PROPERTY_EXECUTION_IDS
 import pl.beone.promena.alfresco.module.core.applicationmodel.model.PromenaModel.PROPERTY_TRANSFORMATION
 import pl.beone.promena.alfresco.module.core.applicationmodel.model.PromenaModel.PROPERTY_TRANSFORMATION_DATA_INDEX
 import pl.beone.promena.alfresco.module.core.applicationmodel.model.PromenaModel.PROPERTY_TRANSFORMATION_DATA_SIZE
@@ -38,8 +37,6 @@ class MinimalRenditionTransformedDataDescriptorSaver(
         transformedDataDescriptor: TransformedDataDescriptor
     ): List<NodeRef> =
         serviceRegistry.retryingTransactionHelper.doInTransaction {
-            nodeRefs.forEach { addExecutionId(it, executionId) }
-
             val primaryNodeRef = nodeRefs.first()
             val theRestNodeRefs = nodeRefs - primaryNodeRef
 
@@ -57,14 +54,6 @@ class MinimalRenditionTransformedDataDescriptorSaver(
 
             transformedNodeRefs
         }
-
-    @Suppress("UNCHECKED_CAST")
-    private fun addExecutionId(sourceNodeRef: NodeRef, executionId: String) {
-        val currentExecutionIds = ((serviceRegistry.nodeService.getProperty(sourceNodeRef, PROPERTY_EXECUTION_IDS) as List<String>?) ?: emptyList())
-        val updatedExecutionIds = currentExecutionIds + executionId
-
-        serviceRegistry.nodeService.setProperty(sourceNodeRef, PROPERTY_EXECUTION_IDS, updatedExecutionIds.toMutableList() as Serializable)
-    }
 
     private fun handle(
         executionId: String,

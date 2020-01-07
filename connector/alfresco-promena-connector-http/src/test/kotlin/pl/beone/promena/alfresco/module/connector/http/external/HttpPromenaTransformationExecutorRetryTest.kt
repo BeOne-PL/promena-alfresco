@@ -8,6 +8,8 @@ import io.mockk.Runs
 import io.mockk.every
 import io.mockk.just
 import io.mockk.mockk
+import org.alfresco.repo.transaction.RetryingTransactionHelper
+import org.alfresco.service.ServiceRegistry
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -69,6 +71,7 @@ class HttpPromenaTransformationExecutorRetryTest {
     private lateinit var dataDescriptorGetter: DataDescriptorGetter
     private lateinit var authorizationService: AuthorizationService
     private lateinit var serializationService: SerializationService
+    private lateinit var serviceRegistry: ServiceRegistry
 
     private lateinit var httpPromenaTransformationExecutor: HttpPromenaTransformationExecutor
 
@@ -97,6 +100,11 @@ class HttpPromenaTransformationExecutorRetryTest {
                 deserialize(TestConstants.performedTransformationDescriptorBytes, PerformedTransformationDescriptor::class.java)
             } returns TestConstants.performedTransformationDescriptor
         }
+        serviceRegistry = mockk {
+            every { retryingTransactionHelper } returns mockk {
+                every { doInTransaction(any<RetryingTransactionHelper.RetryingTransactionCallback<Unit>>(), false, true) } just Runs
+            }
+        }
 
         startServer()
 
@@ -115,7 +123,7 @@ class HttpPromenaTransformationExecutorRetryTest {
             mockk(),
             mockk(),
             authorizationService,
-            mockk(),
+            serviceRegistry,
             serializationService
         )
     }
@@ -269,7 +277,7 @@ class HttpPromenaTransformationExecutorRetryTest {
             mockk(),
             mockk(),
             authorizationService,
-            mockk(),
+            serviceRegistry,
             serializationService
         ).execute(transformation, nodeDescriptor, postTransformationExecutor, customRetry(4, ofSeconds(1)))
 
@@ -278,7 +286,7 @@ class HttpPromenaTransformationExecutorRetryTest {
         }
 
         shouldThrowExactly<HttpException> {
-            promenaMutableTransformationManager.getResult(transformationExecution, ofSeconds(2))
+            promenaMutableTransformationManager.getResult(transformationExecution, ofSeconds(5))
         }
     }
 }
