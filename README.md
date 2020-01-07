@@ -11,10 +11,10 @@ Provides [`ActiveMQPromenaTransformationExecutor`](./connector/alfresco-promena-
 ### [`alfresco-promena-connector-http`](./connector/alfresco-promena-connector-http)
 Provides [`HttpPromenaTransformationExecutor`](./connector/alfresco-promena-connector-http/src/main/kotlin/pl/beone/promena/alfresco/module/connector/http/external/HttpPromenaTransformationExecutor.kt) based on HTTP.
 
-### [`alfresco-promena-rendition_6.1.2`](./rendition/rendition/alfresco-promena-rendition_6.1.2) & [`alfresco-promena-rendition_6.2.0`](./rendition/rendition/alfresco-promena-rendition_6.2.0)
+### [`alfresco-promena-rendition_6.1.2`](./rendition/alfresco-promena-rendition_6.1.2) & [`alfresco-promena-rendition_6.2.0`](./rendition/alfresco-promena-rendition_6.2.0)
 Replace standard Alfresco rendition system with the equivalent in Promena environment. The first one is for Alfresco Content Services 6.1.2  and the second one is for Alfresco Content Services 6.2.0.
 
-### [`alfresco-promena-predefined-rendition`](./rendition/rendition/alfresco-promena-predefined-rendition)
+### [`alfresco-promena-predefined-rendition`](./rendition/alfresco-promena-predefined-rendition)
 Provides `avatar32`, `avatar`, `imgpreview`, `doclib`, `medium` and `pdf` renditions.
 
 ## [Development Guide](./DEVELOPMENT-GUIDE.md)
