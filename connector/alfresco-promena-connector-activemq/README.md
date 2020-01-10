@@ -1,5 +1,5 @@
-# Promena Alfresco module - `alfresco-promena-activemq`
-This module provide [`ActiveMQPromenaTransformationExecutor`](./src/main/kotlin/pl/beone/promena/alfresco/module/connector/activemq/external/transformation/ActiveMQPromenaTransformationExecutor.kt) (`activeMQPromenaTransformationExecutor` bean name) implementation of [`PromenaTransformationExecutor`](./../../alfresco-promena-core/src/main/kotlin/pl/beone/promena/alfresco/module/core/contract/transformation/PromenaTransformationExecutor.kt) interface based on ActiveMQ.
+# Promena Alfresco connector module - `alfresco-promena-activemq`
+This module provides [`ActiveMQPromenaTransformationExecutor`](./src/main/kotlin/pl/beone/promena/alfresco/module/connector/activemq/external/transformation/ActiveMQPromenaTransformationExecutor.kt) (`activeMQPromenaTransformationExecutor` bean name) implementation of [`PromenaTransformationExecutor`](./../../alfresco-promena-core/src/main/kotlin/pl/beone/promena/alfresco/module/core/contract/transformation/PromenaTransformationExecutor.kt) interface based on ActiveMQ.
 
 It implements the client side of [`promena-connector-activemq`](https://gitlab.office.beone.pl/promena/promena/tree/master/module/connector/activemq) connector module.
 
@@ -44,7 +44,7 @@ promena.connector.activemq.consumer.queue.response.error=Promena.response.error
 # - spring.activemq.packages.trust-all
 # - spring.activemq.packages.trusted
 promena.connector.activemq.spring.activemq.broker-url=${messaging.broker.url}
-# The number of concurrent consumers (level of concurrency)
+# Number of concurrent consumers (level of concurrency)
 promena.connector.activemq.spring.jms.listener.concurrency=1
 promena.connector.activemq.spring.jms.listener.max-concurrency=1
 ```

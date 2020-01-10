@@ -7,7 +7,7 @@ This module provides renditions:
 * `medium` ([`MediumPromenaRenditionDefinition`](./src/main/kotlin/pl/beone/promena/alfresco/module/rendition/predefined/internal/definition/image/MediumPromenaRenditionDefinition.kt))
 * `pdf` ([`PdfPromenaRenditionDefinition`](./src/main/kotlin/pl/beone/promena/alfresco/module/rendition/predefined/internal/definition/pdf/PdfPromenaRenditionDefinition.kt))
 
-See [Promena Alfresco - Development Guide](./DEVELOPMENT-GUIDE.md) to find out how to provide a custom rendition.
+See [Promena Alfresco - Development Guide](./../../DEVELOPMENT-GUIDE.md) to find out how to provide a custom rendition.
 
 ## Dependency
 ```xml
