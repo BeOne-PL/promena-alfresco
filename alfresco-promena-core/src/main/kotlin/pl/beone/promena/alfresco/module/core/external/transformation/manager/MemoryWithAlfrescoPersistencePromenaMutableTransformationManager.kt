@@ -34,7 +34,7 @@ import java.util.concurrent.locks.ReentrantLock
  *
  * Last [bufferSize] executions are persisted in memory.
  * Transformation executions persisted in memory are monitored using "passive waiting" (they will signal that a transformation execution has been over).
- * When a user ask for the result, this implementation checks if it is in buffer first.
+ * When a user ask for the result, this implementation checks if it's in the buffer first.
  * Then, if the given transformation execution isn't there, this implementation tries to get the result from Alfresco Content Services.
  *
  * If `waitMax` parameter of [getResult] is `null`, the function gets [waitMax] as timeout.

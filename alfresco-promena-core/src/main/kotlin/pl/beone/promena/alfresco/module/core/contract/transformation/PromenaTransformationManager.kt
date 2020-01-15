@@ -14,7 +14,7 @@ interface PromenaTransformationManager {
      * Tries to get a result of [transformationExecution].
      * If a result isn't available, it waits a maximum of [waitMax] for a response. If [waitMax] is `null`, it should use global settings.
      *
-     * @throws TimeoutException if [waitMax] (if it is present) or default timeout is exceeded
+     * @throws TimeoutException if [waitMax] (if present) or default timeout has been reached
      * @throws IllegalStateException if there is no [transformationExecution] in progress
      * @throws Exception if [transformationExecution] is resulted in an exception
      */

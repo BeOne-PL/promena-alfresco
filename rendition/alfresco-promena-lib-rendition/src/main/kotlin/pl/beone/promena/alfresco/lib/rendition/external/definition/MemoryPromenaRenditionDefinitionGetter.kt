@@ -6,7 +6,7 @@ import pl.beone.promena.alfresco.lib.rendition.contract.definition.PromenaRendit
 import pl.beone.promena.alfresco.lib.rendition.contract.definition.PromenaRenditionDefinitionGetter
 
 /**
- * Manages all [PromenaRenditionDefinition] in memory.
+ * Manages [promenaRenditionDefinitions] in memory.
  */
 class MemoryPromenaRenditionDefinitionGetter(
     private val promenaRenditionDefinitions: List<PromenaRenditionDefinition>
