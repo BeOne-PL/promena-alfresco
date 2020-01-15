@@ -4,6 +4,9 @@ import org.alfresco.repo.security.authentication.AuthenticationUtil
 import org.alfresco.service.ServiceRegistry
 import pl.beone.promena.alfresco.module.core.contract.AuthorizationService
 
+/**
+ * Uses [AuthenticationService][org.alfresco.service.cmr.security.AuthenticationService] to provide the functionality.
+ */
 class SecurityAuthorizationService(
     private val serviceRegistry: ServiceRegistry
 ) : AuthorizationService {

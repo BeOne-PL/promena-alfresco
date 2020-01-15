@@ -24,6 +24,14 @@ import pl.beone.promena.transformer.contract.data.DataDescriptor
 import pl.beone.promena.transformer.contract.transformation.Transformation
 import java.io.Serializable
 
+/**
+ * Provides ActiveMQ bridge between Alfresco Content Services and Promena.
+ * This implementation uses `promena-connector-activemq` connector module so it's required to include its on Promena.
+ *
+ * @see [TransformerSender.send]
+ * @see [TransformerResponseConsumer.receiveQueue][pl.beone.promena.alfresco.module.connector.activemq.delivery.activemq.TransformerResponseConsumer.receiveQueue]
+ * @see [TransformerResponseErrorConsumer.receiveQueue][pl.beone.promena.alfresco.module.connector.activemq.delivery.activemq.TransformerResponseErrorConsumer.receiveQueue]
+ */
 class ActiveMQPromenaTransformationExecutor(
     private val externalCommunicationParameters: CommunicationParameters,
     private val promenaMutableTransformationManager: PromenaMutableTransformationManager,

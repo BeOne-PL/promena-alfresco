@@ -2,6 +2,11 @@ package pl.beone.promena.alfresco.module.core.applicationmodel.transformation
 
 import org.alfresco.service.cmr.repository.NodeRef
 
+/**
+ * Provides information about a result of a transformation execution.
+ *
+ * @see TransformationExecutionResultDsl
+ */
 data class TransformationExecutionResult internal constructor(
     val nodeRefs: List<NodeRef>
 ) {

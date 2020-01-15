@@ -23,6 +23,19 @@ import pl.beone.promena.transformer.contract.transformation.Transformation
 import pl.beone.promena.transformer.internal.model.data.NoData
 import java.io.Serializable
 
+/**
+ * Transform the result of a transformation into Alfresco Content Services persistence model (`content-model.xml`) and saves it in the following format:
+ *
+ * Each [TransformedDataDescriptor] is saved as the child association (`rn:rendition`) in nodes from [NodeDescriptor] with type `cm:thumbnail` and properties:
+ * - `cm:content` - [Data] of [TransformedDataDescriptor] element
+ * - `promena:executionId` - the transformation execution id
+ * - `promena:transformationId` - the array of [TransformerId][pl.beone.promena.transformer.contract.transformer.TransformerId] elements
+ * - `promena:transformationDataIndex` - the index of [TransformedDataDescriptor] element
+ * - `promena:transformationDataSize` - the number of [TransformedDataDescriptor] elements
+ * - `promena:transformation` - the array of `toString` executed on [Transformation] elements
+ *
+ * If [saveIfZero] is `false`, a node without content is created.
+ */
 class MinimalRenditionTransformedDataDescriptorSaver(
     private val saveIfZero: Boolean,
     private val promenaTransformationMetadataSavers: List<PromenaTransformationMetadataSaver>,

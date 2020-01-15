@@ -28,6 +28,10 @@ class TransformerResponseErrorConsumer(
         private val logger = KotlinLogging.logger {}
     }
 
+    /**
+     * Listens to `${promena.connector.activemq.consumer.queue.response.error}` queue and reacts to the failed result of the transformation execution.
+     * It only listens to messages that meet `${promena.connector.activemq.consumer.queue.response.error.selector}` condition.
+     */
     @JmsListener(
         destination = "\${promena.connector.activemq.consumer.queue.response.error}",
         selector = "\${promena.connector.activemq.consumer.queue.response.error.selector}"

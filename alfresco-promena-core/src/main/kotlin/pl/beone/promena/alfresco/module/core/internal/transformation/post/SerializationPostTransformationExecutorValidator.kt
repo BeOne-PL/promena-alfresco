@@ -10,6 +10,15 @@ import pl.beone.promena.core.contract.serialization.SerializationService
 import java.lang.reflect.Field
 import java.lang.reflect.Modifier
 
+/**
+ * Validates a implementation of [PostTransformationExecutor] in terms of serialization.
+ * It allows to use only elements that can be serialized and deserialized correctly.
+ *
+ * A implementation of [PostTransformationExecutor] can't:
+ * - be an anonymous class
+ * - contain non-static logger
+ * - contain fields with reference to ClassLoader (for example: proxy class, object with BeanFactory field etc.)
+ */
 class SerializationPostTransformationExecutorValidator(
     private val serializationService: SerializationService
 ) :

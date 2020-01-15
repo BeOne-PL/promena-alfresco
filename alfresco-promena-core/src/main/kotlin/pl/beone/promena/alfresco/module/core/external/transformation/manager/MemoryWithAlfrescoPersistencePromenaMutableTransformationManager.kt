@@ -18,6 +18,27 @@ import java.util.concurrent.TimeoutException
 import java.util.concurrent.locks.Lock
 import java.util.concurrent.locks.ReentrantLock
 
+/**
+ * Coordinates transformation executions.
+ * If [persistInAlfresco] is `true`, transformation executions are persisted
+ * in Alfresco Content Services persistence model (`content-manager-model.xml`) in the following format:
+ *
+ * As the child association (`promenaManager:transformations`)
+ * of `promenaManager:coordinator` node (`/app:company_home/promenaManager:Promena`)
+ * with type `promenaManager:transformation` and properties:
+ * - `promenaManager:executionId` - the transformation execution id
+ * - `promenaManager:startDate` - the start date of the transformation
+ * - `promenaManager:finishDate` - the finish date of the transformation
+ * - `promenaManager:nodeRefs` - the array of node refs (the successful result of the transformation)
+ * - `promenaManager:throwable` - the array of bytes of a serialized exception (the failed result of the transformation)
+ *
+ * Last [bufferSize] executions are persisted in memory.
+ * Transformation executions persisted in memory are monitored using "passive waiting" (they will signal that a transformation execution has been over).
+ * When a user ask for the result, this implementation checks if it is in buffer first.
+ * Then, if the given transformation execution isn't there, this implementation tries to get the result from Alfresco Content Services.
+ *
+ * If `waitMax` parameter of [getResult] is `null`, the function gets [waitMax] as timeout.
+ */
 class MemoryWithAlfrescoPersistencePromenaMutableTransformationManager(
     private val persistInAlfresco: Boolean,
     bufferSize: Int,

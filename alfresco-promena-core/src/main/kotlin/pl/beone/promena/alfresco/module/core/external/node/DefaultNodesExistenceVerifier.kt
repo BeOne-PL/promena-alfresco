@@ -5,6 +5,9 @@ import org.alfresco.service.cmr.repository.InvalidNodeRefException
 import org.alfresco.service.cmr.repository.NodeRef
 import pl.beone.promena.alfresco.module.core.contract.node.NodesExistenceVerifier
 
+/**
+ * Uses [NodeService][org.alfresco.service.cmr.repository.NodeService] to verify if a node exists.
+ */
 class DefaultNodesExistenceVerifier(
     private val serviceRegistry: ServiceRegistry
 ) : NodesExistenceVerifier {

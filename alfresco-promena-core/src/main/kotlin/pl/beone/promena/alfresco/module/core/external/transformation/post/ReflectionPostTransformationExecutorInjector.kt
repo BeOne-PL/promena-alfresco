@@ -5,6 +5,9 @@ import org.springframework.context.ApplicationContext
 import pl.beone.promena.alfresco.module.core.contract.transformation.post.PostTransformationExecutor
 import pl.beone.promena.alfresco.module.core.contract.transformation.post.PostTransformationExecutorInjector
 
+/**
+ * Injects [PostTransformationExecutor.applicationContext] and [PostTransformationExecutor.serviceRegistry] using reflection.
+ */
 class ReflectionPostTransformationExecutorInjector(
     private val applicationContext: ApplicationContext,
     private val serviceRegistry: ServiceRegistry

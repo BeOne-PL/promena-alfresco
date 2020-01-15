@@ -22,6 +22,9 @@ class TransformerSender(
     private val jmsTemplate: JmsTemplate
 ) {
 
+    /**
+     * Constructs the message using [executionId], [transformationDescriptor] and [transformationParameters], and sends to [queueRequest] queue.
+     */
     fun send(executionId: String, transformationDescriptor: TransformationDescriptor, transformationParameters: TransformationParameters) {
         jmsTemplate.convertAndSend(queueRequest, transformationDescriptor) { message ->
             message.apply {

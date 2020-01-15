@@ -13,6 +13,11 @@ import pl.beone.promena.transformer.internal.model.data.memory.MemoryData
 import pl.beone.promena.transformer.internal.model.data.memory.toMemoryData
 import java.io.File
 
+/**
+ * Creates a data from [ContentReader].
+ * If [externalCommunicationId] is [MemoryCommunicationParametersConstants.ID], it creates [MemoryData].
+ * If [externalCommunicationId] is [FileCommunicationParametersConstants.ID], it creates [FileData] with a file in [externalCommunicationDirectory].
+ */
 class MemoryOrFileDataConverter(
     private val externalCommunicationId: String,
     private val externalCommunicationDirectory: File? = null

@@ -5,6 +5,9 @@ import pl.beone.promena.alfresco.module.core.contract.data.DataCleaner
 import pl.beone.promena.transformer.applicationmodel.exception.data.DataDeleteException
 import pl.beone.promena.transformer.contract.model.data.Data
 
+/**
+ * Uses [Data.delete] to clean a data and deals with exceptions.
+ */
 class DefaultDataCleaner : DataCleaner {
 
     companion object {

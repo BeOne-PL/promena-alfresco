@@ -14,6 +14,9 @@ import pl.beone.promena.transformer.contract.data.DataDescriptor
 import pl.beone.promena.transformer.contract.data.dataDescriptor
 import pl.beone.promena.transformer.contract.data.singleDataDescriptor
 
+/**
+ * Gets the content and the media type of a node using [ContentService][org.alfresco.service.cmr.repository.ContentService].
+ */
 class ContentPropertyDataDescriptorGetter(
     private val dataConverter: DataConverter,
     private val serviceRegistry: ServiceRegistry

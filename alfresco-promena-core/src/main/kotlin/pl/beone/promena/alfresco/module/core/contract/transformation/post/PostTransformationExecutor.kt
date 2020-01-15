@@ -6,6 +6,10 @@ import pl.beone.promena.alfresco.module.core.applicationmodel.node.NodeDescripto
 import pl.beone.promena.alfresco.module.core.applicationmodel.transformation.TransformationExecutionResult
 import pl.beone.promena.transformer.contract.transformation.Transformation
 
+/**
+ * The base class for every post-transformation operations.
+ * If you want to provide custom operations, you has to extend this class.
+ */
 abstract class PostTransformationExecutor {
 
     protected lateinit var applicationContext: ApplicationContext

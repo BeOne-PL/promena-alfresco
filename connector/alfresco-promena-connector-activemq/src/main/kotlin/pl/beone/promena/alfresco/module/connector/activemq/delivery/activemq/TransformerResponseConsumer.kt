@@ -38,6 +38,9 @@ class TransformerResponseConsumer(
         private val logger = KotlinLogging.logger {}
     }
 
+    /**
+     * Listens to `${promena.connector.activemq.consumer.queue.response}` queue and reacts to the successful result of the transformation execution.
+     */
     @JmsListener(destination = "\${promena.connector.activemq.consumer.queue.response}")
     fun receiveQueue(
         @Header(CORRELATION_ID) executionId: String,

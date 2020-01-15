@@ -8,6 +8,10 @@ import org.alfresco.service.cmr.repository.NodeRef
 import org.alfresco.service.cmr.repository.datatype.DefaultTypeConverter
 import pl.beone.promena.alfresco.module.core.contract.node.NodesChecksumGenerator
 
+/**
+ * A checksum is created as a hash code of the sum of content url and mime type.
+ * If there is more than one node, a checksum is created as concatenation of each node checksum.
+ */
 class RenditionContentNodesChecksumGenerator(
     private val serviceRegistry: ServiceRegistry
 ) : NodesChecksumGenerator {
