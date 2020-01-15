@@ -30,12 +30,12 @@ interface PromenaTransformationManager {
         fun startTransformation(): TransformationExecution
 
         /**
-         * Marks the [transformationExecution] as executed and saves the successful result ([result]).
+         * Marks [transformationExecution] as executed and saves the successful result ([result]).
          */
         fun completeTransformation(transformationExecution: TransformationExecution, result: TransformationExecutionResult)
 
         /**
-         * Marks the [transformationExecution] as executed and saves the failed result ([throwable]).
+         * Marks [transformationExecution] as executed and saves the failed result ([throwable]).
          */
         fun completeErrorTransformation(transformationExecution: TransformationExecution, throwable: Throwable)
     }

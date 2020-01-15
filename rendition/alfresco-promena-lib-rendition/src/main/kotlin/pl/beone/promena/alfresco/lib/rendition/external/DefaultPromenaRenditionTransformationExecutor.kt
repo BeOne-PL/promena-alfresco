@@ -4,6 +4,12 @@ import mu.KotlinLogging
 import org.alfresco.service.ServiceRegistry
 import org.alfresco.service.cmr.repository.ChildAssociationRef
 import org.alfresco.service.cmr.repository.NodeRef
+import pl.beone.promena.alfresco.lib.rendition.applicationmodel.exception.PromenaRenditionInProgressException
+import pl.beone.promena.alfresco.lib.rendition.contract.PromenaRenditionInProgressSynchronizer
+import pl.beone.promena.alfresco.lib.rendition.contract.PromenaRenditionTransformationExecutor
+import pl.beone.promena.alfresco.lib.rendition.contract.RenditionGetter
+import pl.beone.promena.alfresco.lib.rendition.contract.definition.PromenaRenditionDefinitionGetter
+import pl.beone.promena.alfresco.lib.rendition.extension.getMediaType
 import pl.beone.promena.alfresco.module.core.applicationmodel.model.PromenaModel.PROPERTY_RENDITION_NAME
 import pl.beone.promena.alfresco.module.core.applicationmodel.node.NodeDescriptor
 import pl.beone.promena.alfresco.module.core.applicationmodel.node.toSingleNodeDescriptor
@@ -12,17 +18,17 @@ import pl.beone.promena.alfresco.module.core.applicationmodel.transformation.Tra
 import pl.beone.promena.alfresco.module.core.contract.transformation.PromenaTransformationExecutor
 import pl.beone.promena.alfresco.module.core.contract.transformation.PromenaTransformationManager
 import pl.beone.promena.alfresco.module.core.contract.transformation.post.PostTransformationExecutor
-import pl.beone.promena.alfresco.lib.rendition.applicationmodel.exception.PromenaRenditionInProgressException
-import pl.beone.promena.alfresco.lib.rendition.contract.PromenaRenditionInProgressSynchronizer
-import pl.beone.promena.alfresco.lib.rendition.contract.PromenaRenditionTransformationExecutor
-import pl.beone.promena.alfresco.lib.rendition.contract.RenditionGetter
-import pl.beone.promena.alfresco.lib.rendition.contract.definition.PromenaRenditionDefinitionGetter
-import pl.beone.promena.alfresco.lib.rendition.extension.getMediaType
 import pl.beone.promena.transformer.contract.transformation.Transformation
 import pl.beone.promena.transformer.internal.model.metadata.emptyMetadata
 import pl.beone.promena.transformer.internal.model.metadata.plus
 import java.time.Duration
 
+/**
+ * Uses [PromenaTransformationManager] to delegate an execution and uses [PromenaTransformationManager] to get a result.
+ * It is done in the same like a ordinary transformation. The only difference is that a `renditionName` is added to every metadata of nodes
+ * to be saved [RenditionPromenaTransformationMetadataSaver][pl.beone.promena.alfresco.lib.rendition.external.transformation.RenditionPromenaTransformationMetadataSaver]
+ * as a property after a transformation execution.
+ */
 class DefaultPromenaRenditionTransformationExecutor(
     private val serviceRegistry: ServiceRegistry,
     private val renditionGetter: RenditionGetter,

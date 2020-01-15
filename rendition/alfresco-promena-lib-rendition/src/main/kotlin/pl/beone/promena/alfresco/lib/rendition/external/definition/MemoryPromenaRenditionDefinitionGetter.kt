@@ -5,6 +5,9 @@ import pl.beone.promena.alfresco.lib.rendition.applicationmodel.exception.NoSuch
 import pl.beone.promena.alfresco.lib.rendition.contract.definition.PromenaRenditionDefinition
 import pl.beone.promena.alfresco.lib.rendition.contract.definition.PromenaRenditionDefinitionGetter
 
+/**
+ * Manages all [PromenaRenditionDefinition] in memory.
+ */
 class MemoryPromenaRenditionDefinitionGetter(
     private val promenaRenditionDefinitions: List<PromenaRenditionDefinition>
 ) : PromenaRenditionDefinitionGetter {

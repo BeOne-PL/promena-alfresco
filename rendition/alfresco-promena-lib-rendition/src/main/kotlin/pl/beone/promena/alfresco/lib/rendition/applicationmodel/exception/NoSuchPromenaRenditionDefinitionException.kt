@@ -2,6 +2,9 @@ package pl.beone.promena.alfresco.lib.rendition.applicationmodel.exception
 
 import pl.beone.promena.alfresco.lib.rendition.contract.definition.PromenaRenditionDefinition
 
+/**
+ * Signals that [renditionName] isn't available. [promenaRenditionDefinitions] contains available definitions.
+ */
 class NoSuchPromenaRenditionDefinitionException(
     val renditionName: String,
     val promenaRenditionDefinitions: List<PromenaRenditionDefinition>

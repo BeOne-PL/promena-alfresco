@@ -1,10 +1,15 @@
 package pl.beone.promena.alfresco.lib.rendition.internal
 
 import org.alfresco.service.cmr.repository.NodeRef
-import pl.beone.promena.alfresco.module.core.applicationmodel.transformation.TransformationExecution
 import pl.beone.promena.alfresco.lib.rendition.applicationmodel.exception.PromenaRenditionInProgressException
 import pl.beone.promena.alfresco.lib.rendition.contract.PromenaRenditionInProgressSynchronizer
+import pl.beone.promena.alfresco.module.core.applicationmodel.transformation.TransformationExecution
 
+/**
+ * Persists all rendition transformation execution in memory.
+ * A rendition transformation is associated with a specified Alfresco Content Services instance
+ * so there is no need to recover the state after a reboot.
+ */
 class MemoryPromenaRenditionInProgressSynchronizer : PromenaRenditionInProgressSynchronizer {
 
     private data class RenditionKey(

@@ -11,6 +11,9 @@ class RenditionPromenaTransformationMetadataSaver(
     private val serviceRegistry: ServiceRegistry
 ) : PromenaTransformationMetadataSaver {
 
+    /**
+     * Gets `renditionName` from the metadata of [transformedDataDescriptor] and saves as `promena:renditionName` in [nodeRefs].
+     */
     override fun save(
         nodeRefs: List<NodeRef>,
         transformation: Transformation,
@@ -29,6 +32,6 @@ class RenditionPromenaTransformationMetadataSaver(
         transformedDataDescriptors
             .mapNotNull { it.metadata.getOrNull(PROPERTY_RENDITION_NAME.localName, String::class.java) }
             .distinct()
-            .also { if(it.size > 1) error("Transformed data contain more than <1> rendition name: $it") }
+            .also { if (it.size > 1) error("Transformed data contain more than <1> rendition name: $it") }
             .firstOrNull() ?: throw NoSuchElementException()
 }

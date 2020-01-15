@@ -2,6 +2,9 @@ package pl.beone.promena.alfresco.lib.rendition.applicationmodel.exception
 
 import pl.beone.promena.transformer.applicationmodel.mediatype.MediaType
 
+/**
+ * Signals that a rendition transformation isn't possible for a [reason].
+ */
 class PromenaRenditionTransformationNotSupportedException internal constructor(
     reason: String
 ) : IllegalArgumentException(reason) {

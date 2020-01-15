@@ -14,7 +14,6 @@ import pl.beone.promena.alfresco.module.core.applicationmodel.model.PromenaModel
 import java.io.Serializable
 import javax.annotation.PostConstruct
 
-
 class ThumbnailNodeCreationBehaviour(
     private val policyComponent: PolicyComponent,
     private val nodeService: NodeService
@@ -33,6 +32,10 @@ class ThumbnailNodeCreationBehaviour(
         )
     }
 
+    /**
+     * Adds or modifies `cm:lastThumbnailModification` using the `promena:renditionName` of [childAssociationRef].
+     * It is required by Alfresco Share to display renditions in Repository.
+     */
     fun onCreateNode(childAssociationRef: ChildAssociationRef) {
         val nodeRef = childAssociationRef.childRef
         if (nodeRef != null && nodeService.exists(nodeRef)) {

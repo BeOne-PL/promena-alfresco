@@ -6,12 +6,17 @@ import org.alfresco.service.cmr.repository.ChildAssociationRef
 import org.alfresco.service.cmr.repository.NodeRef
 import org.alfresco.service.cmr.repository.NodeService
 import org.alfresco.service.namespace.RegexQNamePattern.MATCH_ALL
-import pl.beone.promena.alfresco.module.core.applicationmodel.model.PromenaModel.PROPERTY_RENDITION_NAME
 import pl.beone.promena.alfresco.lib.rendition.contract.RenditionGetter
+import pl.beone.promena.alfresco.module.core.applicationmodel.model.PromenaModel.PROPERTY_RENDITION_NAME
 import java.time.LocalDateTime
 import java.time.ZoneId
 import java.util.*
 
+/**
+ * Implements the standard Alfresco Content Services system of getting rendition nodes.
+ * It looks for nodes that are child association (`rn:rendition`) of a node.
+ * In case of many nodes of a specified rendition in [getRenditions] function, it gets the youngest one.
+ */
 class PromenaRenditionGetter(
     private val nodeService: NodeService
 ) : RenditionGetter {
