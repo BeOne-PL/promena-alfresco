@@ -9,6 +9,9 @@ import pl.beone.promena.transformer.contract.transformation.Transformation
 import pl.beone.promena.transformer.converter.libreoffice.applicationmodel.LibreOfficeConverterSupport
 import pl.beone.promena.transformer.converter.libreoffice.applicationmodel.libreOfficeConverterTransformation
 
+/**
+ * Provides the equivalent of `pdf` Alfresco Content Services rendition.
+ */
 class PdfPromenaRenditionDefinition() : PromenaRenditionDefinition {
 
     override fun getRenditionName(): String =

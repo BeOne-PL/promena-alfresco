@@ -9,6 +9,9 @@ import pl.beone.promena.transformer.contract.transformation.Transformation
 import pl.beone.promena.transformer.converter.imagemagick.applicationmodel.imageMagickConverterParameters
 import pl.beone.promena.transformer.converter.imagemagick.applicationmodel.imageMagickConverterTransformation
 
+/**
+ * Provides the equivalent of `medium` Alfresco Content Services rendition.
+ */
 object MediumPromenaRenditionDefinition : PromenaRenditionDefinition {
 
     override fun getRenditionName(): String =

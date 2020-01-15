@@ -9,6 +9,9 @@ import pl.beone.promena.transformer.contract.transformation.Transformation
 import pl.beone.promena.transformer.converter.imagemagick.applicationmodel.imageMagickConverterParameters
 import pl.beone.promena.transformer.converter.imagemagick.applicationmodel.imageMagickConverterTransformation
 
+/**
+ * Provides the equivalent of `avatar32` Alfresco Content Services rendition.
+ */
 object Avatar32PromenaRenditionDefinition : PromenaRenditionDefinition {
 
     override fun getRenditionName(): String =
