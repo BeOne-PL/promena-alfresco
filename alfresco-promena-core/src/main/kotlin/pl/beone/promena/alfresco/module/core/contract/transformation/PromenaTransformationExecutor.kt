@@ -14,7 +14,7 @@ interface PromenaTransformationExecutor {
     /**
      * Executes [transformation] using [nodeDescriptor] on Promena asynchronously.
      * In case of an error, another execution is run until the number of [Retry.maxAttempts] is reached. If [retry] is `null`, it should use global settings.
-     * In case of a successful result of a execution, [postTransformationExecutor] is run.
+     * In case of a successful result of a execution, [postTransformationExecutor] is run if set.
      *
      * @return the descriptor of the delegated execution to Promena
      */
