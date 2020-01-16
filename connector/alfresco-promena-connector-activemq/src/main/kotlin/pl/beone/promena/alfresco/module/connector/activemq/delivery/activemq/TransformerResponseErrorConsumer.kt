@@ -29,8 +29,17 @@ class TransformerResponseErrorConsumer(
     }
 
     /**
-     * Listens to `${promena.connector.activemq.consumer.queue.response.error}` queue and reacts to the failed result of the transformation execution.
-     * It only listens to messages that meet `${promena.connector.activemq.consumer.queue.response.error.selector}` condition.
+     * Serialization and deserialization of the body is executed by
+     * [KryoMessageConverter][pl.beone.promena.connector.activemq.delivery.jms.message.converter.KryoMessageConverter] automatically.
+     *
+     * It carries out **8** point of `The flow of asynchronous transaction execution` ([ActiveMQPromenaTransformationExecutor][pl.beone.promena.alfresco.module.connector.activemq.external.transformation.ActiveMQPromenaTransformationExecutor])
+     * Listens to `${promena.connector.activemq.consumer.queue.response.error}` queue and reacts to the failed result of a transformation execution.
+     * Another execution is run until the number of [Retry.maxAttempts] is reached.
+     * `${promena.connector.activemq.consumer.queue.response.error.selector}` selector guarantees that
+     * this consumer only receives messages meeting this requirement.
+     * If the number is reached, it completes the transformation execution with an exception ([promenaMutableTransformationManager])
+     *
+     * @see [ActiveMQPromenaTransformationExecutor][pl.beone.promena.alfresco.module.connector.activemq.external.transformation.ActiveMQPromenaTransformationExecutor]
      */
     @JmsListener(
         destination = "\${promena.connector.activemq.consumer.queue.response.error}",
