@@ -26,7 +26,7 @@ import java.io.Serializable
 
 /**
  * Provides ActiveMQ bridge between Alfresco Content Services and Promena.
- * This implementation uses `promena-connector-activemq` connector module so it's required to include its on Promena.
+ * This implementation uses `promena-connector-activemq` connector module so it's required to include it on Promena.
  *
  * The flow:
  * 1. Validates `postTransformationExecutor`

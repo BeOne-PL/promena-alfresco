@@ -36,7 +36,7 @@ import java.util.concurrent.Executors
 
 /**
  * Provides HTTP bridge between Alfresco Content Services and Promena.
- * This implementation uses `promena-connector-http` connector module so it's required to include its on Promena.
+ * This implementation uses `promena-connector-http` connector module so it's required to include it on Promena.
  *
  * The flow:
  * 1. Validates `postTransformationExecutor`
