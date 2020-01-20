@@ -32,7 +32,7 @@ class TransformerResponseErrorConsumer(
      * Serialization and deserialization of the body is executed by
      * [KryoMessageConverter][pl.beone.promena.connector.activemq.delivery.jms.message.converter.KryoMessageConverter] automatically.
      *
-     * It carries out **8** point of `The flow of asynchronous transaction execution` ([ActiveMQPromenaTransformationExecutor][pl.beone.promena.alfresco.module.connector.activemq.external.transformation.ActiveMQPromenaTransformationExecutor])
+     * It carries out **8** point of `The flow of an asynchronous transaction execution` ([ActiveMQPromenaTransformationExecutor][pl.beone.promena.alfresco.module.connector.activemq.external.transformation.ActiveMQPromenaTransformationExecutor])
      * Listens to `${promena.connector.activemq.consumer.queue.response.error}` queue and reacts to the failed result of a transformation execution.
      * Another execution is run until the number of [Retry.maxAttempts] is reached.
      * `${promena.connector.activemq.consumer.queue.response.error.selector}` selector guarantees that

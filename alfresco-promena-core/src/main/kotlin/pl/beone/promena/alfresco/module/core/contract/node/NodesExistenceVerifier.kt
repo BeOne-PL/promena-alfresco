@@ -6,7 +6,7 @@ import org.alfresco.service.cmr.repository.NodeRef
 interface NodesExistenceVerifier {
 
     /**
-     * @throws InvalidNodeRefException if any of [nodeRefs] don't exist
+     * @throws InvalidNodeRefException if any of [nodeRefs] doesn't exist
      */
     fun verify(nodeRefs: List<NodeRef>)
 }

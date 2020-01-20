@@ -39,23 +39,25 @@ import java.util.concurrent.Executors
  * This implementation uses `promena-connector-http` connector module so it's required to include its on Promena.
  *
  * The flow:
- * 1. Validates [PostTransformationExecutor]
- * 2. Checks if nodes from [NodeDescriptor] exist
- * 3. Converts [NodeDescriptor] to [DataDescriptor]
- * 4. Adds [PROPERTY_EXECUTION_IDS] to nodes from [NodeDescriptor]
- * 5. Performs a transaction asynchronously
- * 6. Returns [TransformationExecution]
+ * 1. Validates `postTransformationExecutor`
+ * 2. Checks if the nodes from `nodeDescriptor` have been modified in the current transaction
+ * 3. Generates a checksum of `nodeDescriptor`
+ * 4. Converts `nodeDescriptor` to [DataDescriptor]
+ * 5. Starts a new transformation execution
+ * 6. Adds [PROPERTY_EXECUTION_IDS] to nodes from [NodeDescriptor]
+ * 7. Performs a transaction asynchronously
+ * 8. Returns [TransformationExecution]
  *
- * The flow of asynchronous transaction execution:
+ * The flow of an asynchronous transaction execution:
  * 1. Performs a transformation on Promena ([HttpPromenaTransformer.execute])
- * 2. Verifies if nodes from [NodeDescriptor] still exist
- * 3. Checks if the checksum of nodes from [NodeDescriptor] hasn't changed
- * 4. Saves the results of transformation execution ([transformedDataDescriptorSaver])
- * 5. Executes [PostTransformationExecutor] if set
- * 6. Cleans data ([dataCleaner])
- * 7. Completes the transformation execution with the result ([promenaMutableTransformationManager])
+ * 2. Verifies if the nodes from `nodeDescriptor` still exist
+ * 3. Checks if the checksum of the nodes from `nodeDescriptor` haven't changed
+ * 4. Saves the results of the transformation execution
+ * 5. Injects dependencies into `postTransformationExecutor` and run it if set
+ * 6. Cleans data
+ * 7. Completes the transformation execution with the result
  * 8. In case of an error, another execution is run until the number of [Retry.maxAttempts] is reached.
- *    If the number is reached, it completes the transformation execution with an exception ([promenaMutableTransformationManager])
+ *    If the number is reached, it completes the transformation execution with an exception
  */
 class HttpPromenaTransformationExecutor(
     threads: Int,
