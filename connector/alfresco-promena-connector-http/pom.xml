@@ -16,8 +16,6 @@
 
         <kotlin-logging.version>1.7.6</kotlin-logging.version>
 
-        <alfresco-jvm-console.version>1.0.0</alfresco-jvm-console.version>
-
         <alfresco-promena-core.version>1.0.0</alfresco-promena-core.version>
         <promena-lib-connector-http.version>1.0.0</promena-lib-connector-http.version>
 
@@ -76,13 +74,6 @@
             <version>${alfresco-promena-core.version}</version>
         </dependency>
 
-        <dependency>
-            <groupId>pl.skotar.alfresco.module.jvmconsole</groupId>
-            <artifactId>alfresco-jvm-console</artifactId>
-            <version>${alfresco-jvm-console.version}</version>
-            <type>amp</type>
-            <scope>provided</scope>
-        </dependency>
         <dependency>
             <groupId>pl.beone.promena.alfresco.module</groupId>
             <artifactId>alfresco-promena-core</artifactId>
