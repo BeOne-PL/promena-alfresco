@@ -1,7 +1,7 @@
 # Promena Alfresco connector module - `alfresco-promena-activemq`
 This module provides [`ActiveMQPromenaTransformationExecutor`](./src/main/kotlin/pl/beone/promena/alfresco/module/connector/activemq/external/transformation/ActiveMQPromenaTransformationExecutor.kt) (`activeMQPromenaTransformationExecutor` bean name) implementation of [`PromenaTransformationExecutor`](./../../alfresco-promena-core/src/main/kotlin/pl/beone/promena/alfresco/module/core/contract/transformation/PromenaTransformationExecutor.kt) interface based on ActiveMQ.
 
-It implements the client side of [`promena-connector-activemq`](https://gitlab.office.beone.pl/promena/promena/tree/master/module/connector/activemq) connector module.
+It implements the client side of [`promena-connector-activemq`](https://github.com/BeOne-PL/promena/tree/master/module/connector/activemq) connector module.
 
 ## Dependency
 ```xml

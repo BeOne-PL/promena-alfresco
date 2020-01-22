@@ -34,7 +34,7 @@ All registered metadata savers are executed after saving the results of a transf
 
 ### Example
 * [`RenditionPromenaTransformationMetadataSaver`](./rendition/alfresco-promena-lib-rendition/src/main/kotlin/pl/beone/promena/alfresco/lib/rendition/external/transformation/RenditionPromenaTransformationMetadataSaver.kt)
-* [`BarcodeDetectorPromenaTransformationMetadataSaver`](https://gitlab.office.beone.pl/promena/promena-transformer-barcode-detector-metadata-alfresco/blob/master/src/main/kotlin/pl/beone/promena/alfresco/module/transformer/barcodedetector/external/transformation/BarcodeDetectorPromenaTransformationMetadataSaver.kt)
+* [`BarcodeDetectorPromenaTransformationMetadataSaver`](https://github.com/BeOne-PL/promena-transformer-barcode-detector-metadata-alfresco/blob/master/src/main/kotlin/pl/beone/promena/alfresco/module/transformer/barcodedetector/external/transformation/BarcodeDetectorPromenaTransformationMetadataSaver.kt)
    
 ## Rendition definition
 A custom rendition definition can be provided by implementing [`PromenaRenditionDefinition`](./rendition/alfresco-promena-lib-rendition/src/main/kotlin/pl/beone/promena/alfresco/lib/rendition/contract/definition/PromenaRenditionDefinition.kt) and registering it as a bean. 

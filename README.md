@@ -20,5 +20,5 @@ Provides `avatar32`, `avatar`, `imgpreview`, `doclib`, `medium` and `pdf` rendit
 ## [Development Guide](./DEVELOPMENT-GUIDE.md)
 Explains and demonstrates how to implement custom solutions such as a connector, a rendition or a metadata saver.
 
-## [Sample#Alfresco](https://gitlab.office.beone.pl/promena/promena-sample#alfresco)
+## [Sample#Alfresco](https://github.com/BeOne-PL/promena-sample#alfresco)
 There are several samples that demonstrate how to integrate Alfresco with Promena divided into 3 categories: communication, connector and rendition.
