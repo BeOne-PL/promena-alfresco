@@ -7,6 +7,7 @@ import pl.beone.promena.alfresco.module.connector.activemq.delivery.activemq.Tra
 import pl.beone.promena.alfresco.module.connector.activemq.external.transformation.ActiveMQPromenaTransformationExecutor
 import pl.beone.promena.alfresco.module.connector.activemq.internal.TransformationParametersSerializationService
 import pl.beone.promena.alfresco.module.core.contract.AuthorizationService
+import pl.beone.promena.alfresco.module.core.contract.data.DataCleaner
 import pl.beone.promena.alfresco.module.core.contract.transformation.PromenaTransformationManager.PromenaMutableTransformationManager
 
 @Configuration
@@ -17,6 +18,7 @@ class TransformerResponseErrorConsumerContext {
         promenaMutableTransformationManager: PromenaMutableTransformationManager,
         transformerResponseProcessor: TransformerResponseProcessor,
         activeMQPromenaTransformer: ActiveMQPromenaTransformationExecutor,
+        dataCleaner: DataCleaner,
         authorizationService: AuthorizationService,
         transformationParametersSerializationService: TransformationParametersSerializationService
     ) =
@@ -24,6 +26,7 @@ class TransformerResponseErrorConsumerContext {
             promenaMutableTransformationManager,
             transformerResponseProcessor,
             activeMQPromenaTransformer,
+            dataCleaner,
             authorizationService,
             transformationParametersSerializationService
         )

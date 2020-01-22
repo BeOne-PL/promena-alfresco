@@ -11,15 +11,18 @@ import pl.beone.promena.alfresco.module.connector.activemq.internal.Transformati
 import pl.beone.promena.alfresco.module.core.applicationmodel.retry.Retry
 import pl.beone.promena.alfresco.module.core.applicationmodel.transformation.transformationExecution
 import pl.beone.promena.alfresco.module.core.contract.AuthorizationService
+import pl.beone.promena.alfresco.module.core.contract.data.DataCleaner
 import pl.beone.promena.alfresco.module.core.contract.transformation.PromenaTransformationManager.PromenaMutableTransformationManager
 import pl.beone.promena.alfresco.module.core.extension.couldNotTransform
 import pl.beone.promena.alfresco.module.core.extension.logOnRetry
 import pl.beone.promena.core.applicationmodel.exception.transformation.TransformationException
+import pl.beone.promena.transformer.contract.data.DataDescriptor
 
 class TransformerResponseErrorConsumer(
     private val promenaMutableTransformationManager: PromenaMutableTransformationManager,
     private val transformerResponseProcessor: TransformerResponseProcessor,
     private val activeMQPromenaTransformer: ActiveMQPromenaTransformationExecutor,
+    private val dataCleaner: DataCleaner,
     private val authorizationService: AuthorizationService,
     private val transformationParametersSerializationService: TransformationParametersSerializationService
 ) {
@@ -59,6 +62,8 @@ class TransformerResponseErrorConsumer(
             if (retry is Retry.No || wasLastAttempt(attempt, retry.maxAttempts)) {
                 logger.couldNotTransform(transformation, nodeDescriptor, transformationException)
                 promenaMutableTransformationManager.completeErrorTransformation(transformationExecution, transformationException)
+
+                dataCleaner.clean(dataDescriptor.descriptors.map(DataDescriptor.Single::data))
             } else {
                 val currentAttempt = attempt + 1
 

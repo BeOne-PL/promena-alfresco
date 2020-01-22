@@ -154,7 +154,7 @@ class HttpPromenaTransformationExecutor(
             }
         } catch (e: Exception) {
             process(parameters) {
-                processException(parameters, attempt, e)
+                processException(dataDescriptor, parameters, attempt, e)
             }
         }
     }
@@ -219,12 +219,14 @@ class HttpPromenaTransformationExecutor(
         promenaMutableTransformationManager.completeTransformation(transformationExecution, transformationExecutionResult)
     }
 
-    private suspend fun processException(parameters: Parameters, attempt: Long, exception: Exception) {
+    private suspend fun processException(dataDescriptor: DataDescriptor, parameters: Parameters, attempt: Long, exception: Exception) {
         val (transformation, nodeDescriptor, _, retry, _, transformationExecution, _, _) = parameters
 
         if (retry is Retry.No || wasLastAttempt(attempt, retry.maxAttempts)) {
             logger.couldNotTransform(transformation, nodeDescriptor, exception)
             promenaMutableTransformationManager.completeErrorTransformation(transformationExecution, exception)
+
+            dataCleaner.clean(dataDescriptor.descriptors.map(DataDescriptor.Single::data))
         } else {
             val currentAttempt = attempt + 1
 
