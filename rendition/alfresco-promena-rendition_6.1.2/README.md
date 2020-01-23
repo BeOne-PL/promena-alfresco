@@ -13,7 +13,7 @@ This version of `alfresco-promena-rendition` module is suited to Alfresco Conten
 ```
 
 ## AMP
-http://nexus.office.beone.pl/repository/releases/pl/beone/promena/alfresco/module/rendition/alfresco-promena-rendition_6.1.2/1.0.0/alfresco-promena-rendition_6.1.2-1.0.0.amp
+https://oss.sonatype.org/service/local/repo_groups/public/content/pl/beone/promena/alfresco/module/rendition/alfresco-promena-rendition_6.1.2/1.0.0/alfresco-promena-rendition_6.1.2-1.0.0.amp
 
 ## Properties
 Visit [`alfresco-promena-rendition_6.2.0`](./../alfresco-promena-rendition_6.2.0) for properties.

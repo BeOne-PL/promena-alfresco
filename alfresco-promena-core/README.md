@@ -35,7 +35,7 @@ You can implement [`PromenaTransformationMetadataSaver`](./src/main/kotlin/pl/be
 ```
 
 ## AMP
-http://nexus.office.beone.pl/repository/releases/pl/beone/promena/alfresco/module/alfresco-promena-core/1.0.0/alfresco-promena-core-1.0.0.amp
+https://oss.sonatype.org/service/local/repo_groups/public/content/pl/beone/promena/alfresco/module/alfresco-promena-core/1.0.0/alfresco-promena-core-1.0.0.amp
 
 ## Properties
 ```properties

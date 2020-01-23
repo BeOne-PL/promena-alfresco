@@ -19,4 +19,4 @@ See [Promena Alfresco - Development Guide](./../../DEVELOPMENT-GUIDE.md) to find
 ```
 
 ## AMP
-http://nexus.office.beone.pl/repository/releases/pl/beone/promena/alfresco/module/rendition/alfresco-promena-predefined-rendition/1.0.0/alfresco-promena-predefined-rendition-1.0.0.amp
+https://oss.sonatype.org/service/local/repo_groups/public/content/pl/beone/promena/alfresco/module/rendition/alfresco-promena-predefined-rendition/1.0.0/alfresco-promena-predefined-rendition-1.0.0.amp

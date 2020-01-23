@@ -13,7 +13,7 @@ It implements the client side of [`promena-connector-activemq`](https://github.c
 ```
 
 ## AMP
-http://nexus.office.beone.pl/repository/releases/pl/beone/promena/alfresco/module/connector/alfresco-promena-connector-activemq/1.0.0/alfresco-promena-connector-activemq-1.0.0.amp
+https://oss.sonatype.org/service/local/repo_groups/public/content/pl/beone/promena/alfresco/module/connector/alfresco-promena-connector-activemq/1.0.0/alfresco-promena-connector-activemq-1.0.0.amp
 
 ## Properties
 ```properties
