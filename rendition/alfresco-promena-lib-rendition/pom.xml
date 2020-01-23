@@ -616,23 +616,7 @@
             <id>spring-milestone</id>
             <url>https://repo.spring.io/milestone</url>
         </repository>
-
-        <repository>
-            <id>beone-releases</id>
-            <url>http://nexus.office.beone.pl/repository/releases</url>
-        </repository>
     </repositories>
-
-    <distributionManagement>
-        <repository>
-            <id>beone-releases</id>
-            <url>http://nexus.office.beone.pl/repository/releases</url>
-        </repository>
-        <snapshotRepository>
-            <id>beone-snapshots</id>
-            <url>http://nexus.office.beone.pl/repository/snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     <pluginRepositories>
         <pluginRepository>
@@ -646,10 +630,6 @@
                 <enabled>true</enabled>
                 <updatePolicy>daily</updatePolicy>
             </snapshots>
-        </pluginRepository>
-        <pluginRepository>
-            <id>beone-releases</id>
-            <url>http://nexus.office.beone.pl/repository/releases</url>
         </pluginRepository>
     </pluginRepositories>
 
