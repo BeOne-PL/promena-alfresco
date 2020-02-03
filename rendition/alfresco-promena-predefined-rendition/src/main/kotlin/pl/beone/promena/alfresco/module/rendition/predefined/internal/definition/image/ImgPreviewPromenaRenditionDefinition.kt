@@ -31,10 +31,7 @@ object ImgPreviewPromenaRenditionDefinition : PromenaRenditionDefinition {
                 )
             )
         } catch (e: TransformationNotSupportedException) {
-            throw PromenaRenditionTransformationNotSupportedException.unsupportedMediaType(
-                getRenditionName(), mediaType,
-                getTargetMediaType()
-            )
+            throw PromenaRenditionTransformationNotSupportedException.unsupportedMediaType(getRenditionName(), mediaType, getTargetMediaType())
         }
 
     override fun getPlaceHolderResourcePath(): String? =
