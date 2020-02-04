@@ -1,5 +1,6 @@
 package pl.beone.promena.alfresco.lib.rendition.contract.definition
 
+import pl.beone.promena.alfresco.lib.rendition.applicationmodel.exception.PromenaRenditionTransformationNotSupportedException
 import pl.beone.promena.transformer.applicationmodel.mediatype.MediaType
 import pl.beone.promena.transformer.contract.transformation.Transformation
 
@@ -20,6 +21,7 @@ interface PromenaRenditionDefinition {
 
     /**
      * @return a transformation that will be used to transform a data from [mediaType] to [getTargetMediaType]
+     * @throws PromenaRenditionTransformationNotSupportedException if the [mediaType] isn't supported
      */
     fun getTransformation(mediaType: MediaType): Transformation
 
