@@ -8,7 +8,8 @@
         <constructor-arg index="0" ref="nodeService"/>
         <constructor-arg index="1" ref="thumbnailRegistry"/>
         <constructor-arg index="2" ref="promenaRenditionGetter"/>
-        <constructor-arg index="3" ref="defaultPromenaRenditionTransformationExecutor"/>
+        <constructor-arg index="3" ref="memoryPromenaRenditionDefinitionGetter"/>
+        <constructor-arg index="4" ref="defaultPromenaRenditionTransformationExecutor"/>
     </bean>
 
     <bean id="thumbnailRegistry" class="pl.beone.promena.alfresco.module.rendition.external.thumbnail.PromenaThumbnailRegistry">

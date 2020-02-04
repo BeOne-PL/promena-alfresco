@@ -14,11 +14,13 @@ import org.alfresco.service.cmr.thumbnail.ThumbnailService
 import org.alfresco.service.namespace.QName
 import pl.beone.promena.alfresco.lib.rendition.contract.rendition.PromenaRenditionTransformationExecutor
 import pl.beone.promena.alfresco.lib.rendition.contract.rendition.RenditionGetter
+import pl.beone.promena.alfresco.lib.rendition.contract.rendition.definition.PromenaRenditionDefinitionGetter
 
 class PromenaThumbnailService(
     private val nodeService: NodeService,
     private val thumbnailRegistry: ThumbnailRegistry,
     private val renditionGetter: RenditionGetter,
+    private val promenaRenditionDefinitionGetter: PromenaRenditionDefinitionGetter,
     private val promenaRenditionTransformationExecutor: PromenaRenditionTransformationExecutor
 ) : ThumbnailService {
 
@@ -43,7 +45,11 @@ class PromenaThumbnailService(
     }
 
     override fun getThumbnailsEnabled(): Boolean =
-        true
+        if (promenaRenditionDefinitionGetter.getAll().isNotEmpty()) {
+            true
+        } else {
+            false
+        }
 
     override fun createThumbnail(
         node: NodeRef,
