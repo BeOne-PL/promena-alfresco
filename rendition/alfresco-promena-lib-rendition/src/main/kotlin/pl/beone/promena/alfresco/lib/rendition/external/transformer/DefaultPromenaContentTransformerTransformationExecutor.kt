@@ -1,7 +1,6 @@
 package pl.beone.promena.alfresco.lib.rendition.external.transformer
 
 import mu.KotlinLogging
-import org.alfresco.model.ContentModel
 import org.alfresco.model.ContentModel.*
 import org.alfresco.repo.nodelocator.CompanyHomeNodeLocator
 import org.alfresco.repo.security.authentication.AuthenticationUtil
@@ -10,10 +9,12 @@ import org.alfresco.service.cmr.repository.ContentAccessor
 import org.alfresco.service.cmr.repository.ContentReader
 import org.alfresco.service.cmr.repository.ContentWriter
 import org.alfresco.service.cmr.repository.NodeRef
-import org.alfresco.service.namespace.NamespaceService.CONTENT_MODEL_1_0_URI
 import org.alfresco.service.namespace.QName
 import pl.beone.promena.alfresco.lib.rendition.contract.transformer.PromenaContentTransformerTransformationExecutor
 import pl.beone.promena.alfresco.lib.rendition.contract.transformer.definition.PromenaContentTransformerDefinitionGetter
+import pl.beone.promena.alfresco.module.core.applicationmodel.model.PromenaTransformerRenditionModel.ASSOCIATION_CONTAINS
+import pl.beone.promena.alfresco.module.core.applicationmodel.model.PromenaTransformerRenditionModel.TYPE_TRANSFORMATIONS
+import pl.beone.promena.alfresco.module.core.applicationmodel.model.PromenaTransformerRenditionNamespace.PROMENA_TRANSFORMER_RENDITION_MODEL_1_0_URI
 import pl.beone.promena.alfresco.module.core.applicationmodel.node.singleNodeDescriptor
 import pl.beone.promena.alfresco.module.core.applicationmodel.transformation.TransformationExecution
 import pl.beone.promena.alfresco.module.core.contract.AuthorizationService
@@ -32,9 +33,15 @@ class DefaultPromenaContentTransformerTransformationExecutor(
 ) : PromenaContentTransformerTransformationExecutor {
 
     companion object {
-        private val TEMP_PREFIX = "Temp-"
+        private const val PROMENA_TRANSFORMER_RENDITION_TRANSFORMATIONS_NAME = "Transformations"
 
         private val logger = KotlinLogging.logger {}
+    }
+
+    private val promenaTransformerRenditionTransformationsNode: NodeRef by lazy {
+        runInNewWritableTransactionAsAdmin {
+            getTransformerRenditionTransformationsNode() ?: createTransformerRenditionTransformationsNode()
+        }
     }
 
     override fun execute(reader: ContentReader, writer: ContentWriter) {
@@ -43,9 +50,8 @@ class DefaultPromenaContentTransformerTransformationExecutor(
 
         val transformation = promenaContentTransformerDefinitionGetter.getTransformation(mediaType, targetMediaType)
 
-        val (temporaryFolderNode, nodeRef) = runInNewWritableTransactionAsAdmin {
-            val temporaryFolderNode = createTempFolderNode()
-            temporaryFolderNode to createNodeAndPutContent(temporaryFolderNode, reader)
+        val nodeRef = runInNewWritableTransactionAsAdmin {
+            createNodeAndPutContent(promenaTransformerRenditionTransformationsNode, reader)
         }
 
         try {
@@ -58,7 +64,7 @@ class DefaultPromenaContentTransformerTransformationExecutor(
                 .also { transformedNodeRefContentReader -> writer.putContent(transformedNodeRefContentReader) }
         } finally {
             runInNewWritableTransactionAsAdmin {
-                serviceRegistry.nodeService.deleteNode(temporaryFolderNode)
+                serviceRegistry.nodeService.deleteNode(nodeRef)
             }
         }
     }
@@ -66,23 +72,11 @@ class DefaultPromenaContentTransformerTransformationExecutor(
     private fun determineMediaType(contentAccessor: ContentAccessor): MediaType =
         mediaType(contentAccessor.mimetype, contentAccessor.encoding)
 
-    private fun createTempFolderNode(): NodeRef {
-        val folderName = TEMP_PREFIX + UUID.randomUUID().toString()
-
-        return serviceRegistry.nodeService.createNode(
-            getCompanyHomeNodeRef(),
-            ASSOC_CONTAINS,
-            QName.createQName(CONTENT_MODEL_1_0_URI, folderName),
-            TYPE_FOLDER,
-            mapOf(ContentModel.PROP_NAME to folderName)
-        ).childRef
-    }
-
     private fun createNodeAndPutContent(folderNodeRef: NodeRef, contentReader: ContentReader): NodeRef =
         serviceRegistry.nodeService.createNode(
             folderNodeRef,
-            ASSOC_CONTAINS,
-            QName.createQName(CONTENT_MODEL_1_0_URI, UUID.randomUUID().toString()),
+            ASSOCIATION_CONTAINS,
+            QName.createQName(PROMENA_TRANSFORMER_RENDITION_MODEL_1_0_URI, UUID.randomUUID().toString()),
             TYPE_CONTENT
         ).apply {
             serviceRegistry.nodeService.addAspect(childRef, ASPECT_TEMPORARY, mutableMapOf())
@@ -112,6 +106,26 @@ class DefaultPromenaContentTransformerTransformationExecutor(
         authorizationService.runAs(authorizationService.getCurrentUser()) {
             serviceRegistry.retryingTransactionHelper.doInTransaction(toRun, false, true)
         }
+
+    private fun getTransformerRenditionTransformationsNode(): NodeRef? =
+        serviceRegistry.nodeService.getChildByName(
+            getCompanyHomeNodeRef(),
+            ASSOC_CONTAINS,
+            PROMENA_TRANSFORMER_RENDITION_TRANSFORMATIONS_NAME
+        )
+
+    private fun createTransformerRenditionTransformationsNode(): NodeRef =
+        serviceRegistry.nodeService.createNode(
+            getCompanyHomeNodeRef(),
+            ASSOC_CONTAINS,
+            QName.createQName(PROMENA_TRANSFORMER_RENDITION_MODEL_1_0_URI, PROMENA_TRANSFORMER_RENDITION_TRANSFORMATIONS_NAME),
+            TYPE_TRANSFORMATIONS,
+            mapOf(
+                PROP_NAME to PROMENA_TRANSFORMER_RENDITION_TRANSFORMATIONS_NAME,
+                PROP_IS_INDEXED to false,
+                PROP_IS_CONTENT_INDEXED to false
+            )
+        ).childRef
 
     private fun getCompanyHomeNodeRef(): NodeRef =
         serviceRegistry.nodeLocatorService.getNode(CompanyHomeNodeLocator.NAME, null, null)
