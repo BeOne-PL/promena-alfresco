@@ -17,7 +17,6 @@ import pl.beone.promena.alfresco.module.core.applicationmodel.model.PromenaTrans
 import pl.beone.promena.alfresco.module.core.applicationmodel.model.PromenaTransformerRenditionNamespace.PROMENA_TRANSFORMER_RENDITION_MODEL_1_0_URI
 import pl.beone.promena.alfresco.module.core.applicationmodel.node.singleNodeDescriptor
 import pl.beone.promena.alfresco.module.core.applicationmodel.transformation.TransformationExecution
-import pl.beone.promena.alfresco.module.core.contract.AuthorizationService
 import pl.beone.promena.alfresco.module.core.contract.transformation.PromenaTransformationExecutor
 import pl.beone.promena.alfresco.module.core.contract.transformation.PromenaTransformationManager
 import pl.beone.promena.transformer.applicationmodel.mediatype.MediaType
@@ -28,8 +27,7 @@ class DefaultPromenaContentTransformerTransformationExecutor(
     private val serviceRegistry: ServiceRegistry,
     private val promenaContentTransformerDefinitionGetter: PromenaContentTransformerDefinitionGetter,
     private val promenaTransformationExecutor: PromenaTransformationExecutor,
-    private val promenaTransformationManager: PromenaTransformationManager,
-    private val authorizationService: AuthorizationService
+    private val promenaTransformationManager: PromenaTransformationManager
 ) : PromenaContentTransformerTransformationExecutor {
 
     companion object {
@@ -55,7 +53,7 @@ class DefaultPromenaContentTransformerTransformationExecutor(
         }
 
         try {
-            val transformedNodeRef = runInNewWritableTransactionAsCurrentUser {
+            val transformedNodeRef = runInNewWritableTransactionAsAdmin {
                 promenaTransformationExecutor.execute(transformation, singleNodeDescriptor(nodeRef))
                     .let { transformationExecution -> getTransformedNodeRef(transformationExecution) }
             }
@@ -98,14 +96,10 @@ class DefaultPromenaContentTransformerTransformationExecutor(
     }
 
     private fun <T> runInNewWritableTransactionAsAdmin(toRun: () -> T): T =
-        authorizationService.runAs(AuthenticationUtil.getAdminUserName()) {
-            serviceRegistry.retryingTransactionHelper.doInTransaction(toRun, false, true)
-        }
-
-    private fun <T> runInNewWritableTransactionAsCurrentUser(toRun: () -> T): T =
-        authorizationService.runAs(authorizationService.getCurrentUser()) {
-            serviceRegistry.retryingTransactionHelper.doInTransaction(toRun, false, true)
-        }
+        AuthenticationUtil.runAs(
+            { serviceRegistry.retryingTransactionHelper.doInTransaction(toRun, false, true) },
+            AuthenticationUtil.getAdminUserName()
+        )
 
     private fun getTransformerRenditionTransformationsNode(): NodeRef? =
         serviceRegistry.nodeService.getChildByName(
