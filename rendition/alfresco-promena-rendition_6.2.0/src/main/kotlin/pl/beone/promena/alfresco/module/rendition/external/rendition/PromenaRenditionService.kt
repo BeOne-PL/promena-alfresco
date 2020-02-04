@@ -12,8 +12,8 @@ import org.alfresco.service.cmr.repository.NodeRef
 import org.alfresco.service.cmr.repository.NodeService
 import org.alfresco.service.namespace.QName
 import org.alfresco.util.GUID
-import pl.beone.promena.alfresco.lib.rendition.contract.PromenaRenditionTransformationExecutor
-import pl.beone.promena.alfresco.lib.rendition.contract.RenditionGetter
+import pl.beone.promena.alfresco.lib.rendition.contract.rendition.PromenaRenditionTransformationExecutor
+import pl.beone.promena.alfresco.lib.rendition.contract.rendition.RenditionGetter
 
 class PromenaRenditionService(
     private val nodeService: NodeService,

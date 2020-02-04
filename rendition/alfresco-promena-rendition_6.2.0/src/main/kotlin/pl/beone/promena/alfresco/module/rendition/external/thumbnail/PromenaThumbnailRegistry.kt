@@ -16,9 +16,9 @@ import org.alfresco.service.transaction.TransactionService
 import org.alfresco.transform.client.registry.TransformServiceRegistry
 import org.springframework.context.ApplicationContext
 import org.springframework.context.event.ApplicationContextEvent
-import pl.beone.promena.alfresco.lib.rendition.applicationmodel.exception.NoSuchPromenaRenditionDefinitionException
-import pl.beone.promena.alfresco.lib.rendition.applicationmodel.exception.PromenaRenditionTransformationNotSupportedException
-import pl.beone.promena.alfresco.lib.rendition.contract.definition.PromenaRenditionDefinitionGetter
+import pl.beone.promena.alfresco.lib.rendition.applicationmodel.exception.rendition.NoSuchPromenaRenditionDefinitionException
+import pl.beone.promena.alfresco.lib.rendition.applicationmodel.exception.rendition.PromenaRenditionTransformationNotSupportedException
+import pl.beone.promena.alfresco.lib.rendition.contract.rendition.definition.PromenaRenditionDefinitionGetter
 import pl.beone.promena.alfresco.lib.rendition.extension.getMediaType
 import pl.beone.promena.transformer.applicationmodel.mediatype.mediaType
 

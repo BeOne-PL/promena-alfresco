@@ -12,8 +12,8 @@ import org.alfresco.service.cmr.thumbnail.FailedThumbnailInfo
 import org.alfresco.service.cmr.thumbnail.ThumbnailParentAssociationDetails
 import org.alfresco.service.cmr.thumbnail.ThumbnailService
 import org.alfresco.service.namespace.QName
-import pl.beone.promena.alfresco.lib.rendition.contract.PromenaRenditionTransformationExecutor
-import pl.beone.promena.alfresco.lib.rendition.contract.RenditionGetter
+import pl.beone.promena.alfresco.lib.rendition.contract.rendition.PromenaRenditionTransformationExecutor
+import pl.beone.promena.alfresco.lib.rendition.contract.rendition.RenditionGetter
 
 class PromenaThumbnailService(
     private val nodeService: NodeService,

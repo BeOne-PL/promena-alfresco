@@ -4,8 +4,8 @@ import org.alfresco.repo.rendition2.RenditionDefinitionRegistry2
 import org.alfresco.repo.rendition2.RenditionService2
 import org.alfresco.service.cmr.repository.ChildAssociationRef
 import org.alfresco.service.cmr.repository.NodeRef
-import pl.beone.promena.alfresco.lib.rendition.contract.PromenaRenditionTransformationExecutor
-import pl.beone.promena.alfresco.lib.rendition.contract.RenditionGetter
+import pl.beone.promena.alfresco.lib.rendition.contract.rendition.PromenaRenditionTransformationExecutor
+import pl.beone.promena.alfresco.lib.rendition.contract.rendition.RenditionGetter
 
 class PromenaRenditionService2(
     private val renditionGetter: RenditionGetter,
