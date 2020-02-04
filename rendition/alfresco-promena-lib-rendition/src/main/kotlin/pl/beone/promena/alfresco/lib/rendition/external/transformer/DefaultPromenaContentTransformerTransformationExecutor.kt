@@ -13,7 +13,7 @@ import org.alfresco.service.cmr.repository.NodeRef
 import org.alfresco.service.namespace.NamespaceService.CONTENT_MODEL_1_0_URI
 import org.alfresco.service.namespace.QName
 import pl.beone.promena.alfresco.lib.rendition.contract.transformer.PromenaContentTransformerTransformationExecutor
-import pl.beone.promena.alfresco.lib.rendition.contract.transformer.PromenaContentTransformerTransformationGetter
+import pl.beone.promena.alfresco.lib.rendition.contract.transformer.definition.PromenaContentTransformerDefinitionGetter
 import pl.beone.promena.alfresco.module.core.applicationmodel.node.singleNodeDescriptor
 import pl.beone.promena.alfresco.module.core.applicationmodel.transformation.TransformationExecution
 import pl.beone.promena.alfresco.module.core.contract.AuthorizationService
@@ -25,7 +25,7 @@ import java.util.*
 
 class DefaultPromenaContentTransformerTransformationExecutor(
     private val serviceRegistry: ServiceRegistry,
-    private val promenaContentTransformerTransformationGetter: PromenaContentTransformerTransformationGetter,
+    private val promenaContentTransformerDefinitionGetter: PromenaContentTransformerDefinitionGetter,
     private val promenaTransformationExecutor: PromenaTransformationExecutor,
     private val promenaTransformationManager: PromenaTransformationManager,
     private val authorizationService: AuthorizationService
@@ -41,7 +41,7 @@ class DefaultPromenaContentTransformerTransformationExecutor(
         val mediaType = determineMediaType(reader)
         val targetMediaType = determineMediaType(writer)
 
-        val transformation = promenaContentTransformerTransformationGetter.get(mediaType, targetMediaType)
+        val transformation = promenaContentTransformerDefinitionGetter.getTransformation(mediaType, targetMediaType)
 
         val (temporaryFolderNode, nodeRef) = runInNewWritableTransactionAsAdmin {
             val temporaryFolderNode = createTempFolderNode()

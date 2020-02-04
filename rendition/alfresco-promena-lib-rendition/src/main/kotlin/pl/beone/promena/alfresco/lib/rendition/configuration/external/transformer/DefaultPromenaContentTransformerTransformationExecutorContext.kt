@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import pl.beone.promena.alfresco.lib.rendition.contract.transformer.PromenaContentTransformerTransformationGetter
+import pl.beone.promena.alfresco.lib.rendition.contract.transformer.definition.PromenaContentTransformerDefinitionGetter
 import pl.beone.promena.alfresco.lib.rendition.external.transformer.DefaultPromenaContentTransformerTransformationExecutor
 import pl.beone.promena.alfresco.module.core.contract.AuthorizationService
 import pl.beone.promena.alfresco.module.core.contract.transformation.PromenaTransformationExecutor
@@ -21,13 +21,13 @@ class DefaultPromenaContentTransformerTransformationExecutorContext {
         applicationContext: ApplicationContext,
         @Qualifier("global-properties") properties: Properties,
         serviceRegistry: ServiceRegistry,
-        promenaContentTransformerTransformationGetter: PromenaContentTransformerTransformationGetter,
+        promenaContentTransformerDefinitionGetter: PromenaContentTransformerDefinitionGetter,
         promenaTransformationManager: PromenaTransformationManager,
         authorizationService: AuthorizationService
     ) =
         DefaultPromenaContentTransformerTransformationExecutor(
             serviceRegistry,
-            promenaContentTransformerTransformationGetter,
+            promenaContentTransformerDefinitionGetter,
             applicationContext.getPromenaTransformationExecutor(properties.getPropertyWithEmptySupport("promena.rendition.transformer.bean.name")),
             promenaTransformationManager,
             authorizationService

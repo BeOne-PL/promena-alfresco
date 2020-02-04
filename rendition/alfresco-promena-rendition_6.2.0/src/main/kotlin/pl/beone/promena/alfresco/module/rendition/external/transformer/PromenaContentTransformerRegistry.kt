@@ -8,16 +8,16 @@ import org.alfresco.repo.content.transform.TransformerDebug
 import org.alfresco.service.cmr.repository.TransformationOptions
 import pl.beone.promena.alfresco.lib.rendition.applicationmodel.exception.transformer.PromenaContentTransformerTransformationNotSupportedException
 import pl.beone.promena.alfresco.lib.rendition.contract.transformer.PromenaContentTransformerTransformationExecutor
-import pl.beone.promena.alfresco.lib.rendition.contract.transformer.PromenaContentTransformerTransformationGetter
+import pl.beone.promena.alfresco.lib.rendition.contract.transformer.definition.PromenaContentTransformerDefinitionGetter
 import pl.beone.promena.transformer.applicationmodel.mediatype.mediaType
 
 class PromenaContentTransformerRegistry(
-    private val promenaContentTransformerTransformationGetter: PromenaContentTransformerTransformationGetter,
+    private val promenaContentTransformerDefinitionGetter: PromenaContentTransformerDefinitionGetter,
     promenaContentTransformerTransformationExecutor: PromenaContentTransformerTransformationExecutor
 ) : ContentTransformerRegistry(null) {
 
     private val transformer = PromenaContentTransformer(
-        promenaContentTransformerTransformationGetter,
+        promenaContentTransformerDefinitionGetter,
         promenaContentTransformerTransformationExecutor
     )
 
@@ -51,7 +51,7 @@ class PromenaContentTransformerRegistry(
 
     private fun getTransformer(mimetype: String, targetMimetype: String): PromenaContentTransformer? =
         try {
-            promenaContentTransformerTransformationGetter.get(mediaType(mimetype), mediaType(targetMimetype))
+            promenaContentTransformerDefinitionGetter.getTransformation(mediaType(mimetype), mediaType(targetMimetype))
             transformer
         } catch (e: PromenaContentTransformerTransformationNotSupportedException) {
             null

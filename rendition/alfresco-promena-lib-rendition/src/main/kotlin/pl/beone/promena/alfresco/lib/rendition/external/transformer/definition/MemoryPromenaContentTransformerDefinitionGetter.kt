@@ -1,19 +1,19 @@
-package pl.beone.promena.alfresco.lib.rendition.external.transformer
+package pl.beone.promena.alfresco.lib.rendition.external.transformer.definition
 
 import pl.beone.promena.alfresco.lib.rendition.applicationmodel.exception.transformer.PromenaContentTransformerTransformationNotSupportedException
-import pl.beone.promena.alfresco.lib.rendition.contract.transformer.PromenaContentTransformerDefinition
-import pl.beone.promena.alfresco.lib.rendition.contract.transformer.PromenaContentTransformerTransformationGetter
+import pl.beone.promena.alfresco.lib.rendition.contract.transformer.definition.PromenaContentTransformerDefinition
+import pl.beone.promena.alfresco.lib.rendition.contract.transformer.definition.PromenaContentTransformerDefinitionGetter
 import pl.beone.promena.transformer.applicationmodel.mediatype.MediaType
 import pl.beone.promena.transformer.contract.transformation.Transformation
 
-class MemoryPromenaContentTransformerTransformationGetter(
+class MemoryPromenaContentTransformerDefinitionGetter(
     private val promenaContentTransformerDefinitions: List<PromenaContentTransformerDefinition>
-) : PromenaContentTransformerTransformationGetter {
+) : PromenaContentTransformerDefinitionGetter {
 
     private val definitionsOrderedByPriority =
         promenaContentTransformerDefinitions.sortedBy { it.getPriority() }
 
-    override fun get(mediaType: MediaType, targetMediaType: MediaType): Transformation =
+    override fun getTransformation(mediaType: MediaType, targetMediaType: MediaType): Transformation =
         definitionsOrderedByPriority.firstOrNull { checkIfSupported(it, mediaType, targetMediaType) }
             ?.getTransformation(mediaType, targetMediaType)
             ?: throw PromenaContentTransformerTransformationNotSupportedException.unsupportedMediaType(mediaType, targetMediaType)

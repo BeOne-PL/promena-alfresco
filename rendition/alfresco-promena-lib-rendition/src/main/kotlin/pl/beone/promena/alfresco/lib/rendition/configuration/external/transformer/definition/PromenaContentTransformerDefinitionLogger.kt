@@ -1,8 +1,8 @@
-package pl.beone.promena.alfresco.lib.rendition.configuration.external.transformer
+package pl.beone.promena.alfresco.lib.rendition.configuration.external.transformer.definition
 
 import mu.KotlinLogging
 import org.springframework.context.annotation.Configuration
-import pl.beone.promena.alfresco.lib.rendition.contract.transformer.PromenaContentTransformerDefinition
+import pl.beone.promena.alfresco.lib.rendition.contract.transformer.definition.PromenaContentTransformerDefinition
 import javax.annotation.PostConstruct
 
 @Configuration

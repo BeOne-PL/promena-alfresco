@@ -7,11 +7,11 @@ import org.alfresco.service.cmr.repository.ContentWriter
 import org.alfresco.service.cmr.repository.TransformationOptions
 import pl.beone.promena.alfresco.lib.rendition.applicationmodel.exception.transformer.PromenaContentTransformerTransformationNotSupportedException
 import pl.beone.promena.alfresco.lib.rendition.contract.transformer.PromenaContentTransformerTransformationExecutor
-import pl.beone.promena.alfresco.lib.rendition.contract.transformer.PromenaContentTransformerTransformationGetter
+import pl.beone.promena.alfresco.lib.rendition.contract.transformer.definition.PromenaContentTransformerDefinitionGetter
 import pl.beone.promena.transformer.applicationmodel.mediatype.mediaType
 
 internal class PromenaContentTransformer(
-    private val promenaContentTransformerTransformationGetter: PromenaContentTransformerTransformationGetter,
+    private val promenaContentTransformerDefinitionGetter: PromenaContentTransformerDefinitionGetter,
     private val promenaContentTransformerTransformationExecutor: PromenaContentTransformerTransformationExecutor
 ) : ContentTransformer {
 
@@ -63,7 +63,7 @@ internal class PromenaContentTransformer(
 
     private fun checkIfSupported(sourceMimetype: String, targetMimetype: String): Boolean =
         try {
-            promenaContentTransformerTransformationGetter.get(mediaType(sourceMimetype), mediaType(targetMimetype))
+            promenaContentTransformerDefinitionGetter.getTransformation(mediaType(sourceMimetype), mediaType(targetMimetype))
             true
         } catch (e: PromenaContentTransformerTransformationNotSupportedException) {
             false
