@@ -5,7 +5,7 @@
 
     <groupId>pl.beone.promena.alfresco.lib.rendition</groupId>
     <artifactId>alfresco-promena-lib-rendition</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <packaging>jar</packaging>
 
     <name>pl.beone.promena.alfresco.lib.rendition:alfresco-promena-lib-rendition</name>

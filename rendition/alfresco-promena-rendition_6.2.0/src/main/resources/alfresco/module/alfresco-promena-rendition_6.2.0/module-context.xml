@@ -33,9 +33,10 @@
     <import resource="classpath:alfresco/module/${project.artifactId}/context/rendition/rendition-services2-context.xml"/>
     <import resource="classpath:alfresco/module/${project.artifactId}/context/rendition/rendition-services2-promena-context.xml"/>
 
-    <!-- Disable Transformers subsystem -->
+    <!-- Replace Content Transformers by Promena implementation -->
     <import resource="classpath:alfresco/module/${project.artifactId}/context/transformer/bootstrap-context.xml"/>
     <import resource="classpath:alfresco/module/${project.artifactId}/context/transformer/content-services-context.xml"/>
+    <import resource="classpath:alfresco/module/${project.artifactId}/context/transformer/content-services-promena-context.xml"/>
 
     <import resource="classpath:alfresco/module/${project.artifactId}/context/transformer/subsystems/alfresco-pdf-renderer-transform-context.xml"/>
     <import resource="classpath:alfresco/module/${project.artifactId}/context/transformer/subsystems/imagemagick-transform-context.xml"/>

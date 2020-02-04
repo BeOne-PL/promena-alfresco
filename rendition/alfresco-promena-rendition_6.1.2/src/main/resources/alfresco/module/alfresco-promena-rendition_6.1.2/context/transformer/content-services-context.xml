@@ -4,7 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-    <bean id="contentTransformerRegistry" class="pl.beone.promena.alfresco.module.rendition.mock.transformer.MockContentTransformerRegistry"/>
+    <bean id="contentTransformerRegistry" class="pl.beone.promena.alfresco.module.rendition.external.transformer.MockContentTransformerRegistry"/>
 
     <bean id="transformerDebug" class="pl.beone.promena.alfresco.module.rendition.mock.transformer.MockTransformerDebug"/>
 
