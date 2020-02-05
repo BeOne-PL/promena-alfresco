@@ -2,23 +2,16 @@ FROM ${docker.acs.image}:${alfresco.platform.version}
 
 ARG TOMCAT_DIR=/usr/local/tomcat
 
-# Copy Dockerfile to avoid an error if no AMPs exist
-USER root
-
-RUN yum -y install wget && \
-    wget https://github.com/share-extras/js-console/releases/download/v0.6.0-rc1/javascript-console-repo-0.6.0.amp -O $TOMCAT_DIR/amps/javascript-console-repo-0.6.0.amp && \
-    wget https://github.com/Skotar/alfresco-jvm-console/releases/download/1.0.0/alfresco-jvm-console-1.0.0.amp -O $TOMCAT_DIR/amps/alfresco-jvm-console-1.0.0.amp
-
 # Copy Dockerfile to avoid an error if no JARs exist
 COPY Dockerfile extensions/*.jar $TOMCAT_DIR/webapps/alfresco/WEB-INF/lib/
 
+# Copy Dockerfile to avoid an error if no AMPs exist
 COPY Dockerfile extensions/*.amp $TOMCAT_DIR/amps/
+USER root
 RUN java -jar $TOMCAT_DIR/alfresco-mmt/alfresco-mmt*.jar install $TOMCAT_DIR/amps/alfresco-promena-core-1.0.0.amp $TOMCAT_DIR/webapps/alfresco -nobackup -force && \
     java -jar $TOMCAT_DIR/alfresco-mmt/alfresco-mmt*.jar install $TOMCAT_DIR/amps/alfresco-promena-connector-http-1.0.0.amp $TOMCAT_DIR/webapps/alfresco -nobackup -force && \
     java -jar $TOMCAT_DIR/alfresco-mmt/alfresco-mmt*.jar install $TOMCAT_DIR/amps/alfresco-promena-connector-activemq-1.0.0.amp $TOMCAT_DIR/webapps/alfresco -nobackup -force && \
-    java -jar $TOMCAT_DIR/alfresco-mmt/alfresco-mmt*.jar install $TOMCAT_DIR/amps/alfresco-promena-transformer-rendition_6.2.0-2.0.0.amp $TOMCAT_DIR/webapps/alfresco -nobackup -force && \
-    java -jar $TOMCAT_DIR/alfresco-mmt/alfresco-mmt*.jar install $TOMCAT_DIR/amps/javascript-console-repo-0.6.0.amp $TOMCAT_DIR/webapps/alfresco -nobackup -force && \
-    java -jar $TOMCAT_DIR/alfresco-mmt/alfresco-mmt*.jar install $TOMCAT_DIR/amps/alfresco-jvm-console-1.0.0.amp $TOMCAT_DIR/webapps/alfresco -nobackup -force
+    java -jar $TOMCAT_DIR/alfresco-mmt/alfresco-mmt*.jar install $TOMCAT_DIR/amps/alfresco-promena-transformer-rendition_6.2.0-2.0.0.amp $TOMCAT_DIR/webapps/alfresco -nobackup -force
 
 COPY alfresco-global.properties $TOMCAT_DIR/shared/classes/alfresco-global.properties
 COPY dev-log4j.properties $TOMCAT_DIR/shared/classes/alfresco/extension
