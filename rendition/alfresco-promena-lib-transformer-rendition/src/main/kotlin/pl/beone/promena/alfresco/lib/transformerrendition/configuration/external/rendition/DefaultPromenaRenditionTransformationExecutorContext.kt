@@ -10,7 +10,6 @@ import pl.beone.promena.alfresco.lib.transformerrendition.contract.rendition.Pro
 import pl.beone.promena.alfresco.lib.transformerrendition.contract.rendition.RenditionGetter
 import pl.beone.promena.alfresco.lib.transformerrendition.contract.rendition.definition.PromenaRenditionDefinitionGetter
 import pl.beone.promena.alfresco.lib.transformerrendition.external.rendition.DefaultPromenaRenditionTransformationExecutor
-import pl.beone.promena.alfresco.module.core.contract.transformation.PromenaTransformationExecutor
 import pl.beone.promena.alfresco.module.core.contract.transformation.PromenaTransformationManager
 import pl.beone.promena.alfresco.module.core.extension.getPropertyWithEmptySupport
 import pl.beone.promena.alfresco.module.core.extension.getRequiredPropertyWithResolvedPlaceholders
@@ -28,8 +27,7 @@ class DefaultPromenaRenditionTransformationExecutorContext {
         renditionGetter: RenditionGetter,
         promenaRenditionDefinitionGetter: PromenaRenditionDefinitionGetter,
         promenaRenditionInProgressSynchronizer: PromenaRenditionInProgressSynchronizer,
-        promenaTransformationManager: PromenaTransformationManager,
-        promenaTransformationExecutors: List<PromenaTransformationExecutor>
+        promenaTransformationManager: PromenaTransformationManager
     ) =
         DefaultPromenaRenditionTransformationExecutor(
             serviceRegistry,

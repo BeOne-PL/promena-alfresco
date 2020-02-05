@@ -13,6 +13,7 @@ import pl.beone.promena.alfresco.lib.transformerrendition.extension.getMediaType
 import pl.beone.promena.alfresco.module.core.applicationmodel.model.PromenaModel.PROPERTY_RENDITION_NAME
 import pl.beone.promena.alfresco.module.core.applicationmodel.node.NodeDescriptor
 import pl.beone.promena.alfresco.module.core.applicationmodel.node.toSingleNodeDescriptor
+import pl.beone.promena.alfresco.module.core.applicationmodel.retry.noRetry
 import pl.beone.promena.alfresco.module.core.applicationmodel.transformation.TransformationExecution
 import pl.beone.promena.alfresco.module.core.applicationmodel.transformation.TransformationExecutionResult
 import pl.beone.promena.alfresco.module.core.contract.transformation.PromenaTransformationExecutor
@@ -84,7 +85,8 @@ class DefaultPromenaRenditionTransformationExecutor(
                 FinishPostTransformationExecutor(
                     promenaRenditionInProgressSynchronizer,
                     renditionName
-                )
+                ),
+                noRetry()
             )
 
             promenaRenditionInProgressSynchronizer.start(nodeRef, renditionName, transformationExecution)
