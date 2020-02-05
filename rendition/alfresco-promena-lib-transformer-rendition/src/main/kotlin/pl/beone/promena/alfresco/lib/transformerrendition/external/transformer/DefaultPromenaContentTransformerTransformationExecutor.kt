@@ -16,6 +16,7 @@ import pl.beone.promena.alfresco.module.core.applicationmodel.model.PromenaTrans
 import pl.beone.promena.alfresco.module.core.applicationmodel.model.PromenaTransformerRenditionModel.TYPE_TRANSFORMATIONS
 import pl.beone.promena.alfresco.module.core.applicationmodel.model.PromenaTransformerRenditionNamespace.PROMENA_TRANSFORMER_RENDITION_MODEL_1_0_URI
 import pl.beone.promena.alfresco.module.core.applicationmodel.node.singleNodeDescriptor
+import pl.beone.promena.alfresco.module.core.applicationmodel.retry.noRetry
 import pl.beone.promena.alfresco.module.core.applicationmodel.transformation.TransformationExecution
 import pl.beone.promena.alfresco.module.core.contract.transformation.PromenaTransformationExecutor
 import pl.beone.promena.alfresco.module.core.contract.transformation.PromenaTransformationManager
@@ -54,7 +55,7 @@ class DefaultPromenaContentTransformerTransformationExecutor(
 
         try {
             val transformedNodeRef = runInNewWritableTransactionAsAdmin {
-                promenaTransformationExecutor.execute(transformation, singleNodeDescriptor(nodeRef))
+                promenaTransformationExecutor.execute(transformation, singleNodeDescriptor(nodeRef), retry = noRetry())
                     .let { transformationExecution -> getTransformedNodeRef(transformationExecution) }
             }
 
