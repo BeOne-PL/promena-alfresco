@@ -22,13 +22,15 @@ import pl.beone.promena.alfresco.module.core.contract.transformation.PromenaTran
 import pl.beone.promena.alfresco.module.core.contract.transformation.PromenaTransformationManager
 import pl.beone.promena.transformer.applicationmodel.mediatype.MediaType
 import pl.beone.promena.transformer.applicationmodel.mediatype.mediaType
+import java.time.Duration
 import java.util.*
 
 class DefaultPromenaContentTransformerTransformationExecutor(
     private val serviceRegistry: ServiceRegistry,
     private val promenaContentTransformerDefinitionGetter: PromenaContentTransformerDefinitionGetter,
     private val promenaTransformationExecutor: PromenaTransformationExecutor,
-    private val promenaTransformationManager: PromenaTransformationManager
+    private val promenaTransformationManager: PromenaTransformationManager,
+    private val timeout: Duration
 ) : PromenaContentTransformerTransformationExecutor {
 
     companion object {
@@ -86,7 +88,7 @@ class DefaultPromenaContentTransformerTransformationExecutor(
         }.childRef
 
     private fun getTransformedNodeRef(transformationExecution: TransformationExecution): NodeRef {
-        val transformedNodeRefs = promenaTransformationManager.getResult(transformationExecution, null).nodeRefs
+        val transformedNodeRefs = promenaTransformationManager.getResult(transformationExecution, timeout).nodeRefs
 
         check(transformedNodeRefs.isNotEmpty()) { "Transformation execution returned <0> elements but should at least <1>" }
         if (transformedNodeRefs.size >= 2) {

@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
+import pl.beone.promena.alfresco.lib.transformerrendition.configuration.external.getPromenaTransformationExecutor
 import pl.beone.promena.alfresco.lib.transformerrendition.contract.rendition.PromenaRenditionInProgressSynchronizer
 import pl.beone.promena.alfresco.lib.transformerrendition.contract.rendition.RenditionGetter
 import pl.beone.promena.alfresco.lib.transformerrendition.contract.rendition.definition.PromenaRenditionDefinitionGetter
@@ -27,22 +28,16 @@ class DefaultPromenaRenditionTransformationExecutorContext {
         renditionGetter: RenditionGetter,
         promenaRenditionDefinitionGetter: PromenaRenditionDefinitionGetter,
         promenaRenditionInProgressSynchronizer: PromenaRenditionInProgressSynchronizer,
-        promenaTransformationManager: PromenaTransformationManager
+        promenaTransformationManager: PromenaTransformationManager,
+        promenaTransformationExecutors: List<PromenaTransformationExecutor>
     ) =
         DefaultPromenaRenditionTransformationExecutor(
             serviceRegistry,
             renditionGetter,
             promenaRenditionDefinitionGetter,
             promenaRenditionInProgressSynchronizer,
-            applicationContext.getPromenaTransformationExecutor(properties.getPropertyWithEmptySupport("promena.rendition.transformer.bean.name")),
+            applicationContext.getPromenaTransformationExecutor(properties.getPropertyWithEmptySupport("promena.transformer-rendition.content-transformer.transformer.bean.name")),
             promenaTransformationManager,
-            properties.getRequiredPropertyWithResolvedPlaceholders("promena.rendition.transformation.timeout").toDuration()
+            properties.getRequiredPropertyWithResolvedPlaceholders("promena.transformer-rendition.transformer.transformation.timeout").toDuration()
         )
-
-    private fun ApplicationContext.getPromenaTransformationExecutor(beanName: String?): PromenaTransformationExecutor =
-        if (beanName != null) {
-            getBean(beanName, PromenaTransformationExecutor::class.java)
-        } else {
-            getBean(PromenaTransformationExecutor::class.java)
-        }
 }
