@@ -75,7 +75,7 @@ class DefaultPromenaContentTransformerTransformationExecutor(
     }
 
     private fun determineMediaType(contentAccessor: ContentAccessor): MediaType =
-        mediaType(contentAccessor.mimetype, contentAccessor.encoding)
+        mediaType(contentAccessor.mimetype, contentAccessor.encoding ?: Charsets.UTF_8.name())
 
     private fun createNodeAndPutContent(folderNodeRef: NodeRef, contentReader: ContentReader): NodeRef =
         serviceRegistry.nodeService.createNode(
@@ -87,7 +87,7 @@ class DefaultPromenaContentTransformerTransformationExecutor(
             serviceRegistry.nodeService.addAspect(childRef, ASPECT_TEMPORARY, mutableMapOf())
             serviceRegistry.contentService.getWriter(childRef, PROP_CONTENT, true).apply {
                 mimetype = contentReader.mimetype
-                encoding = contentReader.encoding
+                encoding = contentReader.encoding ?: Charsets.UTF_8.name()
             }.putContent(contentReader)
         }.childRef
 

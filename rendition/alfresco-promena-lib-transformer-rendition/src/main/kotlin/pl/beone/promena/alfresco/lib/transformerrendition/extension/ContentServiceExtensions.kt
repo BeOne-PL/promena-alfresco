@@ -9,5 +9,5 @@ import pl.beone.promena.transformer.applicationmodel.mediatype.mediaType
 
 fun ContentService.getMediaType(nodeRef: NodeRef, propertyQName: QName = PROP_CONTENT): MediaType {
     val contentReader = this.getReader(nodeRef, propertyQName)
-    return mediaType(contentReader.mimetype, contentReader.encoding)
+    return mediaType(contentReader.mimetype, contentReader.encoding ?: Charsets.UTF_8.name())
 }
