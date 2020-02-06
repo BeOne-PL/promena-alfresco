@@ -40,32 +40,36 @@ class DefaultPromenaContentTransformerTransformationExecutor(
     }
 
     private val promenaTransformerRenditionTransformationsNode: NodeRef by lazy {
-        runInNewWritableTransactionAsAdmin {
-            getTransformerRenditionTransformationsNode() ?: createTransformerRenditionTransformationsNode()
+        runAsAdmin {
+            runInNewWritableTransaction {
+                getTransformerRenditionTransformationsNode() ?: createTransformerRenditionTransformationsNode()
+            }
         }
     }
 
     override fun execute(reader: ContentReader, writer: ContentWriter) {
-        val mediaType = determineMediaType(reader)
-        val targetMediaType = determineMediaType(writer)
+        runAsAdmin {
+            val mediaType = determineMediaType(reader)
+            val targetMediaType = determineMediaType(writer)
 
-        val transformation = promenaContentTransformerDefinitionGetter.getTransformation(mediaType, targetMediaType)
+            val transformation = promenaContentTransformerDefinitionGetter.getTransformation(mediaType, targetMediaType)
 
-        val nodeRef = runInNewWritableTransactionAsAdmin {
-            createNodeAndPutContent(promenaTransformerRenditionTransformationsNode, reader)
-        }
-
-        try {
-            val transformedNodeRef = runInNewWritableTransactionAsAdmin {
-                promenaTransformationExecutor.execute(transformation, singleNodeDescriptor(nodeRef), retry = noRetry())
-                    .let { transformationExecution -> getTransformedNodeRef(transformationExecution) }
+            val nodeRef = runInNewWritableTransaction {
+                createNodeAndPutContent(promenaTransformerRenditionTransformationsNode, reader)
             }
 
-            serviceRegistry.contentService.getReader(transformedNodeRef, PROP_CONTENT)
-                .also { transformedNodeRefContentReader -> writer.putContent(transformedNodeRefContentReader) }
-        } finally {
-            runInNewWritableTransactionAsAdmin {
-                serviceRegistry.nodeService.deleteNode(nodeRef)
+            try {
+                val transformedNodeRef = runInNewWritableTransaction {
+                    promenaTransformationExecutor.execute(transformation, singleNodeDescriptor(nodeRef), retry = noRetry())
+                        .let { transformationExecution -> getTransformedNodeRef(transformationExecution) }
+                }
+
+                serviceRegistry.contentService.getReader(transformedNodeRef, PROP_CONTENT)
+                    .also { transformedNodeRefContentReader -> writer.putContent(transformedNodeRefContentReader) }
+            } finally {
+                runInNewWritableTransaction {
+                    serviceRegistry.nodeService.deleteNode(nodeRef)
+                }
             }
         }
     }
@@ -98,11 +102,14 @@ class DefaultPromenaContentTransformerTransformationExecutor(
         return transformedNodeRefs[0]
     }
 
-    private fun <T> runInNewWritableTransactionAsAdmin(toRun: () -> T): T =
+    private fun <T> runAsAdmin(toRun: () -> T): T =
         AuthenticationUtil.runAs(
-            { serviceRegistry.retryingTransactionHelper.doInTransaction(toRun, false, true) },
+            toRun,
             AuthenticationUtil.getAdminUserName()
         )
+
+    private fun <T> runInNewWritableTransaction(toRun: () -> T): T =
+        serviceRegistry.retryingTransactionHelper.doInTransaction(toRun, false, true)
 
     private fun getTransformerRenditionTransformationsNode(): NodeRef? =
         serviceRegistry.nodeService.getChildByName(
