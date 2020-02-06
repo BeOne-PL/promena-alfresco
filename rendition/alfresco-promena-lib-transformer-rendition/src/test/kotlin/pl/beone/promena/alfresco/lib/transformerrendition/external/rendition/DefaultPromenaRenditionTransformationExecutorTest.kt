@@ -18,6 +18,7 @@ import pl.beone.promena.alfresco.lib.transformerrendition.contract.rendition.Ren
 import pl.beone.promena.alfresco.lib.transformerrendition.contract.rendition.definition.PromenaRenditionDefinitionGetter
 import pl.beone.promena.alfresco.module.core.applicationmodel.model.PromenaModel
 import pl.beone.promena.alfresco.module.core.applicationmodel.node.toSingleNodeDescriptor
+import pl.beone.promena.alfresco.module.core.applicationmodel.retry.noRetry
 import pl.beone.promena.alfresco.module.core.applicationmodel.transformation.transformationExecution
 import pl.beone.promena.alfresco.module.core.applicationmodel.transformation.transformationExecutionResult
 import pl.beone.promena.alfresco.module.core.contract.transformation.PromenaTransformationExecutor
@@ -39,19 +40,11 @@ class DefaultPromenaRenditionTransformationExecutorTest {
 
         private val sourceNodeRef = NodeRef(STORE_REF_WORKSPACE_SPACESSTORE, "b0bfb14c-be38-48be-90c3-cae4a7fd0c8f")
         private const val renditionName = "doclib"
-        private val childAssociationRef =
-            ChildAssociationRef(
-                ASSOC_RENDITION,
-                sourceNodeRef, null,
-                resultNodeRef
-            )
+        private val childAssociationRef = ChildAssociationRef(ASSOC_RENDITION, sourceNodeRef, null, resultNodeRef)
         private val waitMax = Duration.ofMillis(500)
 
         private val mediaType = APPLICATION_PDF
-        private val transformation = singleTransformation(
-            "converter",
-            mediaType, emptyParameters()
-        )
+        private val transformation = singleTransformation("converter", mediaType, emptyParameters())
         private val nodeDescriptor =
             sourceNodeRef.toSingleNodeDescriptor(emptyMetadata() + (PromenaModel.PROPERTY_RENDITION_NAME.localName to renditionName))
 
@@ -76,10 +69,7 @@ class DefaultPromenaRenditionTransformationExecutorTest {
 
         renditionGetter = mockk {
             every {
-                getRendition(
-                    sourceNodeRef,
-                    renditionName
-                )
+                getRendition(sourceNodeRef, renditionName)
             } returns childAssociationRef
         }
 
@@ -91,32 +81,19 @@ class DefaultPromenaRenditionTransformationExecutorTest {
 
         promenaRenditionInProgressSynchronizer = mockk {
             every {
-                isInProgress(
-                    sourceNodeRef,
-                    renditionName
-                )
+                isInProgress(sourceNodeRef, renditionName)
             } just Runs
             every {
-                start(
-                    sourceNodeRef,
-                    renditionName,
-                    transformationExecution
-                )
+                start(sourceNodeRef, renditionName, transformationExecution)
             } just Runs
             every {
-                finish(
-                    sourceNodeRef,
-                    renditionName
-                )
+                finish(sourceNodeRef, renditionName)
             } just Runs
         }
 
         promenaTransformationManager = mockk {
             every {
-                getResult(
-                    transformationExecution,
-                    waitMax
-                )
+                getResult(transformationExecution, waitMax)
             } returns transformationExecutionResult
         }
 
@@ -126,10 +103,7 @@ class DefaultPromenaRenditionTransformationExecutorTest {
     fun transform() {
         val promenaTransformationExecutor = mockk<PromenaTransformationExecutor> {
             every {
-                execute(
-                    transformation,
-                    nodeDescriptor, any()
-                )
+                execute(transformation, nodeDescriptor, any(), noRetry())
             } returns transformationExecution
         }
 
@@ -141,54 +115,30 @@ class DefaultPromenaRenditionTransformationExecutorTest {
             promenaTransformationExecutor,
             promenaTransformationManager,
             waitMax
-        ).transform(
-            sourceNodeRef,
-            renditionName
-        )
+        ).transform(sourceNodeRef, renditionName)
 
         verify {
-            renditionGetter.getRendition(
-                sourceNodeRef,
-                renditionName
-            )
+            renditionGetter.getRendition(sourceNodeRef, renditionName)
         }
 
         verify {
-            promenaRenditionInProgressSynchronizer.isInProgress(
-                sourceNodeRef,
-                renditionName
-            )
+            promenaRenditionInProgressSynchronizer.isInProgress(sourceNodeRef, renditionName)
         }
         verify {
-            promenaRenditionInProgressSynchronizer.start(
-                sourceNodeRef,
-                renditionName,
-                transformationExecution
-            )
+            promenaRenditionInProgressSynchronizer.start(sourceNodeRef, renditionName, transformationExecution)
         }
         verify(exactly = 0) {
-            promenaRenditionInProgressSynchronizer.finish(
-                sourceNodeRef,
-                renditionName
-            )
+            promenaRenditionInProgressSynchronizer.finish(sourceNodeRef, renditionName)
         }
     }
 
     @Test
     fun `transform _ promenaRenditionInProgressSynchronizer throws PromenaRenditionInProgressException _ should wait for result`() {
-        val exception =
-            PromenaRenditionInProgressException(
-                nodeDescriptor.nodeRef,
-                renditionName,
-                transformationExecution
-            )
+        val exception = PromenaRenditionInProgressException(nodeDescriptor.nodeRef, renditionName, transformationExecution)
 
         promenaRenditionInProgressSynchronizer = mockk {
             every {
-                isInProgress(
-                    sourceNodeRef,
-                    renditionName
-                )
+                isInProgress(sourceNodeRef, renditionName)
             } throws exception
         }
 
@@ -201,37 +151,21 @@ class DefaultPromenaRenditionTransformationExecutorTest {
                 mockk(),
                 promenaTransformationManager,
                 waitMax
-            ).transform(
-                sourceNodeRef,
-                renditionName
-            )
+            ).transform(sourceNodeRef, renditionName)
         }
 
         verify {
-            renditionGetter.getRendition(
-                sourceNodeRef,
-                renditionName
-            )
+            renditionGetter.getRendition(sourceNodeRef, renditionName)
         }
 
         verify {
-            promenaRenditionInProgressSynchronizer.isInProgress(
-                sourceNodeRef,
-                renditionName
-            )
+            promenaRenditionInProgressSynchronizer.isInProgress(sourceNodeRef, renditionName)
         }
         verify(exactly = 0) {
-            promenaRenditionInProgressSynchronizer.start(
-                sourceNodeRef,
-                renditionName,
-                transformationExecution
-            )
+            promenaRenditionInProgressSynchronizer.start(sourceNodeRef, renditionName, transformationExecution)
         }
         verify(exactly = 0) {
-            promenaRenditionInProgressSynchronizer.finish(
-                sourceNodeRef,
-                renditionName
-            )
+            promenaRenditionInProgressSynchronizer.finish(sourceNodeRef, renditionName)
         }
     }
 
@@ -239,10 +173,7 @@ class DefaultPromenaRenditionTransformationExecutorTest {
     fun transformAsync() {
         val promenaTransformationExecutor = mockk<PromenaTransformationExecutor> {
             every {
-                execute(
-                    transformation,
-                    nodeDescriptor, any()
-                )
+                execute(transformation, nodeDescriptor, any(), noRetry())
             } returns transformationExecution
         }
 
@@ -254,36 +185,20 @@ class DefaultPromenaRenditionTransformationExecutorTest {
             promenaTransformationExecutor,
             promenaTransformationManager,
             waitMax
-        ).transformAsync(
-            sourceNodeRef,
-            renditionName
-        )
+        ).transformAsync(sourceNodeRef, renditionName)
 
         verify(exactly = 0) {
-            renditionGetter.getRendition(
-                sourceNodeRef,
-                renditionName
-            )
+            renditionGetter.getRendition(sourceNodeRef, renditionName)
         }
 
         verify {
-            promenaRenditionInProgressSynchronizer.isInProgress(
-                sourceNodeRef,
-                renditionName
-            )
+            promenaRenditionInProgressSynchronizer.isInProgress(sourceNodeRef, renditionName)
         }
         verify {
-            promenaRenditionInProgressSynchronizer.start(
-                sourceNodeRef,
-                renditionName,
-                transformationExecution
-            )
+            promenaRenditionInProgressSynchronizer.start(sourceNodeRef, renditionName, transformationExecution)
         }
         verify(exactly = 0) {
-            promenaRenditionInProgressSynchronizer.finish(
-                sourceNodeRef,
-                renditionName
-            )
+            promenaRenditionInProgressSynchronizer.finish(sourceNodeRef, renditionName)
         }
     }
 
@@ -293,10 +208,7 @@ class DefaultPromenaRenditionTransformationExecutorTest {
 
         val promenaTransformationExecutor = mockk<PromenaTransformationExecutor> {
             every {
-                execute(
-                    transformation,
-                    nodeDescriptor, any()
-                )
+                execute(transformation, nodeDescriptor, any(), noRetry())
             } throws exception
         }
 
@@ -309,48 +221,28 @@ class DefaultPromenaRenditionTransformationExecutorTest {
                 promenaTransformationExecutor,
                 promenaTransformationManager,
                 waitMax
-            ).transformAsync(
-                sourceNodeRef,
-                renditionName
-            )
+            ).transformAsync(sourceNodeRef, renditionName)
         }.message shouldBe "message"
 
         verify {
-            promenaRenditionInProgressSynchronizer.isInProgress(
-                sourceNodeRef,
-                renditionName
-            )
+            promenaRenditionInProgressSynchronizer.isInProgress(sourceNodeRef, renditionName)
         }
         verify(exactly = 0) {
-            promenaRenditionInProgressSynchronizer.start(
-                sourceNodeRef,
-                renditionName,
-                transformationExecution
-            )
+            promenaRenditionInProgressSynchronizer.start(sourceNodeRef, renditionName, transformationExecution)
         }
         verify {
-            promenaRenditionInProgressSynchronizer.finish(
-                sourceNodeRef,
-                renditionName
-            )
+            promenaRenditionInProgressSynchronizer.finish(sourceNodeRef, renditionName)
         }
     }
 
     @Test
     fun `transformAsync _ promenaRenditionInProgressSynchronizer throws PromenaRenditionInProgressException _ should do nothing`() {
         val exception =
-            PromenaRenditionInProgressException(
-                nodeDescriptor.nodeRef,
-                renditionName,
-                transformationExecution
-            )
+            PromenaRenditionInProgressException(nodeDescriptor.nodeRef, renditionName, transformationExecution)
 
         promenaRenditionInProgressSynchronizer = mockk {
             every {
-                isInProgress(
-                    sourceNodeRef,
-                    renditionName
-                )
+                isInProgress(sourceNodeRef, renditionName)
             } throws exception
         }
 
@@ -363,30 +255,17 @@ class DefaultPromenaRenditionTransformationExecutorTest {
                 mockk(),
                 promenaTransformationManager,
                 waitMax
-            ).transformAsync(
-                sourceNodeRef,
-                renditionName
-            )
+            ).transformAsync(sourceNodeRef, renditionName)
         }
 
         verify {
-            promenaRenditionInProgressSynchronizer.isInProgress(
-                sourceNodeRef,
-                renditionName
-            )
+            promenaRenditionInProgressSynchronizer.isInProgress(sourceNodeRef, renditionName)
         }
         verify(exactly = 0) {
-            promenaRenditionInProgressSynchronizer.start(
-                sourceNodeRef,
-                renditionName,
-                transformationExecution
-            )
+            promenaRenditionInProgressSynchronizer.start(sourceNodeRef, renditionName, transformationExecution)
         }
         verify(exactly = 0) {
-            promenaRenditionInProgressSynchronizer.finish(
-                sourceNodeRef,
-                renditionName
-            )
+            promenaRenditionInProgressSynchronizer.finish(sourceNodeRef, renditionName)
         }
     }
 }
