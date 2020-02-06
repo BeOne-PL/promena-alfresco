@@ -34,7 +34,7 @@ class DefaultPromenaContentTransformerTransformationExecutor(
 ) : PromenaContentTransformerTransformationExecutor {
 
     companion object {
-        private const val PROMENA_TRANSFORMER_RENDITION_TRANSFORMATIONS_NAME = "Transformations"
+        private const val PROMENA_TRANSFORMER_RENDITION_TRANSFORMATIONS_NAME = "transformations"
 
         private val logger = KotlinLogging.logger {}
     }
