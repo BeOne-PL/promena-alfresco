@@ -28,7 +28,7 @@ internal class AlfrescoPromenaManagerPersistence(
 ) {
 
     companion object {
-        private const val PROMENA_COORDINATOR_NAME = "Promena"
+        private const val PROMENA_COORDINATOR_NAME = "coordinator"
     }
 
     private val promenaCoordinatorNode: NodeRef by lazy { getCoordinatorNode() ?: createCoordinatorNode() }
