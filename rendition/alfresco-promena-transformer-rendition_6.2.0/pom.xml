@@ -3,7 +3,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>pl.beone.promena.alfresco.module.rendition</groupId>
+    <groupId>pl.beone.promena.alfresco.module.transformer-rendition</groupId>
     <artifactId>alfresco-promena-transformer-rendition_6.2.0</artifactId>
     <version>2.0.0</version>
     <packaging>jar</packaging>
@@ -66,7 +66,7 @@
                      the Alfresco Maven IT Mojo runs as part of the parent project ... -->
     <dependencies>
         <dependency>
-            <groupId>pl.beone.promena.alfresco.transformer-rendition</groupId>
+            <groupId>pl.beone.promena.alfresco.lib.transformer-rendition</groupId>
             <artifactId>alfresco-promena-lib-transformer-rendition</artifactId>
             <version>${alfresco-promena-lib-transformer-rendition.version}</version>
         </dependency>
