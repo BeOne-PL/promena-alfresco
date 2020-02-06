@@ -3,12 +3,12 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>pl.beone.promena.alfresco.transformer-rendition</groupId>
+    <groupId>pl.beone.promena.alfresco.lib.transformer-rendition</groupId>
     <artifactId>alfresco-promena-lib-transformer-rendition</artifactId>
     <version>2.0.0</version>
     <packaging>jar</packaging>
 
-    <name>pl.beone.promena.alfresco.transformer-rendition:alfresco-promena-lib-transformer-rendition</name>
+    <name>pl.beone.promena.alfresco.module.transformer-rendition:alfresco-promena-lib-transformer-rendition</name>
 
     <properties>
         <kotlin.version>1.3.50</kotlin.version>
