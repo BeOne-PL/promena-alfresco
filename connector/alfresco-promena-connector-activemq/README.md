@@ -8,12 +8,12 @@ It implements the client side of [`promena-connector-activemq`](https://github.c
 <dependency>
     <groupId>pl.beone.promena.alfresco.module.connector</groupId>
     <artifactId>alfresco-promena-connector-activemq</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
 ## AMP
-https://oss.sonatype.org/service/local/repo_groups/public/content/pl/beone/promena/alfresco/module/connector/alfresco-promena-connector-activemq/1.0.0/alfresco-promena-connector-activemq-1.0.0.amp
+https://oss.sonatype.org/service/local/repo_groups/public/content/pl/beone/promena/alfresco/module/connector/alfresco-promena-connector-activemq/1.0.1/alfresco-promena-connector-activemq-1.0.1.amp
 
 ## Properties
 ```properties
