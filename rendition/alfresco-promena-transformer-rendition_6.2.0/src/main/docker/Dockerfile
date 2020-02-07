@@ -10,7 +10,7 @@ COPY Dockerfile extensions/*.amp $TOMCAT_DIR/amps/
 USER root
 RUN java -jar $TOMCAT_DIR/alfresco-mmt/alfresco-mmt*.jar install $TOMCAT_DIR/amps/alfresco-promena-core-1.0.1.amp $TOMCAT_DIR/webapps/alfresco -nobackup -force && \
     java -jar $TOMCAT_DIR/alfresco-mmt/alfresco-mmt*.jar install $TOMCAT_DIR/amps/alfresco-promena-connector-http-1.0.0.amp $TOMCAT_DIR/webapps/alfresco -nobackup -force && \
-    java -jar $TOMCAT_DIR/alfresco-mmt/alfresco-mmt*.jar install $TOMCAT_DIR/amps/alfresco-promena-connector-activemq-1.0.0.amp $TOMCAT_DIR/webapps/alfresco -nobackup -force && \
+    java -jar $TOMCAT_DIR/alfresco-mmt/alfresco-mmt*.jar install $TOMCAT_DIR/amps/alfresco-promena-connector-activemq-1.0.1.amp $TOMCAT_DIR/webapps/alfresco -nobackup -force && \
     java -jar $TOMCAT_DIR/alfresco-mmt/alfresco-mmt*.jar install $TOMCAT_DIR/amps/alfresco-promena-transformer-rendition_6.2.0-2.0.0.amp $TOMCAT_DIR/webapps/alfresco -nobackup -force
 
 COPY alfresco-global.properties $TOMCAT_DIR/shared/classes/alfresco-global.properties

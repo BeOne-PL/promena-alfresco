@@ -17,7 +17,7 @@
         <alfresco-promena-lib-transformer-rendition.version>2.0.0</alfresco-promena-lib-transformer-rendition.version>
         <alfresco-promena-core.version>1.0.1</alfresco-promena-core.version>
         <alfresco-promena-connector-http.version>1.0.0</alfresco-promena-connector-http.version>
-        <alfresco-promena-connector-activemq.version>1.0.0</alfresco-promena-connector-activemq.version>
+        <alfresco-promena-connector-activemq.version>1.0.1</alfresco-promena-connector-activemq.version>
 
         <!-- Alfresco Maven Plugin version to use -->
         <alfresco.sdk.version>4.1.0</alfresco.sdk.version>
