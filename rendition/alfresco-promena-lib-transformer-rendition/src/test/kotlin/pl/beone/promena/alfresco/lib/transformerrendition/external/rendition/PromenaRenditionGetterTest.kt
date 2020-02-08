@@ -5,8 +5,6 @@ import org.alfresco.model.ContentModel
 import org.alfresco.model.RenditionModel
 import org.alfresco.rad.test.AbstractAlfrescoIT
 import org.alfresco.rad.test.AlfrescoTestRunner
-import org.alfresco.repo.nodelocator.CompanyHomeNodeLocator
-import org.alfresco.service.cmr.model.FileExistsException
 import org.alfresco.service.cmr.repository.ChildAssociationRef
 import org.alfresco.service.cmr.repository.NodeRef
 import org.alfresco.service.namespace.NamespaceService
@@ -15,8 +13,9 @@ import org.junit.Before
 import org.junit.Test
 import org.junit.runner.RunWith
 import pl.beone.promena.alfresco.lib.transformerrendition.contract.rendition.RenditionGetter
+import pl.beone.promena.alfresco.lib.transformerrendition.external.util.createNameBasedOnDate
+import pl.beone.promena.alfresco.lib.transformerrendition.external.util.createOrGetIntegrationTestsFolder
 import pl.beone.promena.alfresco.module.core.applicationmodel.model.PromenaModel
-import java.time.LocalDateTime
 
 @RunWith(AlfrescoTestRunner::class)
 class PromenaRenditionGetterTest : AbstractAlfrescoIT() {
@@ -33,7 +32,7 @@ class PromenaRenditionGetterTest : AbstractAlfrescoIT() {
 
     @Before
     fun setUp() {
-        val integrationTestsFolder = createOrGetIntegrationTestsFolder()
+        val integrationTestsFolder = serviceRegistry.createOrGetIntegrationTestsFolder()
 
         nodeRef = integrationTestsFolder.createNode()
         nodeRefDoclib = nodeRef.createRenditionNode().setRenditionName("doclib")
@@ -85,18 +84,4 @@ class PromenaRenditionGetterTest : AbstractAlfrescoIT() {
 
     private fun ChildAssociationRef.setRenditionName(renditionName: String): ChildAssociationRef =
         this.also { serviceRegistry.nodeService.setProperty(this.childRef, PromenaModel.PROPERTY_RENDITION_NAME, renditionName) }
-
-    private fun createOrGetIntegrationTestsFolder(): NodeRef =
-        try {
-            serviceRegistry.fileFolderService.create(getCompanyHomeNodeRef(), "Integration test", ContentModel.TYPE_FOLDER)
-                .nodeRef
-        } catch (e: FileExistsException) {
-            serviceRegistry.fileFolderService.searchSimple(getCompanyHomeNodeRef(), "Integration test")
-        }
-
-    private fun getCompanyHomeNodeRef(): NodeRef =
-        serviceRegistry.nodeLocatorService.getNode(CompanyHomeNodeLocator.NAME, null, null)
-
-    private fun createNameBasedOnDate(): String =
-        LocalDateTime.now().toString().replace(":", "_")
 }
