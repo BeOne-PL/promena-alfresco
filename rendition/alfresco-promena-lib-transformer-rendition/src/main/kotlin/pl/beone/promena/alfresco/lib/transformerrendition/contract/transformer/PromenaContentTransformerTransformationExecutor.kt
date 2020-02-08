@@ -5,5 +5,8 @@ import org.alfresco.service.cmr.repository.ContentWriter
 
 interface PromenaContentTransformerTransformationExecutor {
 
-    fun execute(reader: ContentReader, writer: ContentWriter)
+    /**
+     * Constructs a transformation from [reader], executes it on Promena synchronously, wait for a result and save it in [writer].
+     */
+    fun transform(reader: ContentReader, writer: ContentWriter)
 }

@@ -2,6 +2,7 @@ package pl.beone.promena.alfresco.lib.transformerrendition.external.transformer
 
 import mu.KotlinLogging
 import org.alfresco.model.ContentModel.*
+import org.alfresco.repo.content.transform.ContentTransformer
 import org.alfresco.repo.nodelocator.CompanyHomeNodeLocator
 import org.alfresco.repo.security.authentication.AuthenticationUtil
 import org.alfresco.service.ServiceRegistry
@@ -25,6 +26,13 @@ import pl.beone.promena.transformer.applicationmodel.mediatype.mediaType
 import java.time.Duration
 import java.util.*
 
+/**
+ * Uses [PromenaTransformationManager] to delegate an execution and uses [PromenaTransformationManager] to get a result.
+ * It is done in the same like an ordinary transformation.
+ * This implementation uses `/app:company_home/promenaTransformerRendition:transformations` to create an temporary node that takes part in a transformation.
+ * It is necessary because [ContentTransformer] forces acting directly on [ContentWriter] and [ContentReader].
+ * Retrying mechanism is disabled.
+ */
 class DefaultPromenaContentTransformerTransformationExecutor(
     private val serviceRegistry: ServiceRegistry,
     private val promenaContentTransformerDefinitionGetter: PromenaContentTransformerDefinitionGetter,
@@ -47,7 +55,7 @@ class DefaultPromenaContentTransformerTransformationExecutor(
         }
     }
 
-    override fun execute(reader: ContentReader, writer: ContentWriter) {
+    override fun transform(reader: ContentReader, writer: ContentWriter) {
         runAsAdmin {
             val mediaType = determineMediaType(reader)
             val targetMediaType = determineMediaType(writer)

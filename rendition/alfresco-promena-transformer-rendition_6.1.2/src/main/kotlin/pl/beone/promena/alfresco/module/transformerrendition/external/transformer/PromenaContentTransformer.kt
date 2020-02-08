@@ -25,7 +25,7 @@ internal class PromenaContentTransformer(
 
     override fun transform(reader: ContentReader, writer: ContentWriter) {
         try {
-            promenaContentTransformerTransformationExecutor.execute(reader, writer)
+            promenaContentTransformerTransformationExecutor.transform(reader, writer)
         } catch (e: PromenaContentTransformerTransformationNotSupportedException) {
             throw UnsupportedTransformationException(e.message)
         }

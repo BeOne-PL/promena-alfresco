@@ -6,6 +6,9 @@ import pl.beone.promena.alfresco.lib.transformerrendition.contract.transformer.d
 import pl.beone.promena.transformer.applicationmodel.mediatype.MediaType
 import pl.beone.promena.transformer.contract.transformation.Transformation
 
+/**
+ * Manages [promenaContentTransformerDefinitions] in memory.
+ */
 class MemoryPromenaContentTransformerDefinitionGetter(
     private val promenaContentTransformerDefinitions: List<PromenaContentTransformerDefinition>
 ) : PromenaContentTransformerDefinitionGetter {

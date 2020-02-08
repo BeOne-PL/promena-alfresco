@@ -10,6 +10,7 @@ import pl.beone.promena.alfresco.lib.transformerrendition.contract.rendition.Pro
 import pl.beone.promena.alfresco.lib.transformerrendition.contract.rendition.RenditionGetter
 import pl.beone.promena.alfresco.lib.transformerrendition.contract.rendition.definition.PromenaRenditionDefinitionGetter
 import pl.beone.promena.alfresco.lib.transformerrendition.extension.getMediaType
+import pl.beone.promena.alfresco.lib.transformerrendition.external.rendition.transformation.RenditionPromenaTransformationMetadataSaver
 import pl.beone.promena.alfresco.module.core.applicationmodel.model.PromenaModel.PROPERTY_RENDITION_NAME
 import pl.beone.promena.alfresco.module.core.applicationmodel.node.NodeDescriptor
 import pl.beone.promena.alfresco.module.core.applicationmodel.node.toSingleNodeDescriptor
@@ -26,9 +27,9 @@ import java.time.Duration
 
 /**
  * Uses [PromenaTransformationManager] to delegate an execution and uses [PromenaTransformationManager] to get a result.
- * It is done in the same like a ordinary transformation. The only difference is that a `renditionName` is added to every metadata of nodes
- * to be saved [RenditionPromenaTransformationMetadataSaver][pl.beone.promena.alfresco.lib.rendition.external.transformation.RenditionPromenaTransformationMetadataSaver]
- * as a property after a transformation execution.
+ * It is done in the same like an ordinary transformation. The only difference is that `renditionName` is added to every metadata of nodes
+ * to be saved [RenditionPromenaTransformationMetadataSaver] as a property after a transformation execution.
+ * Retrying mechanism is disabled.
  */
 class DefaultPromenaRenditionTransformationExecutor(
     private val serviceRegistry: ServiceRegistry,
