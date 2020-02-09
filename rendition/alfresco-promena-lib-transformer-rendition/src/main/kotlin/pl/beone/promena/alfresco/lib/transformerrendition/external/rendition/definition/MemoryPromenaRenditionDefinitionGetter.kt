@@ -18,9 +18,5 @@ class MemoryPromenaRenditionDefinitionGetter(
         promenaRenditionDefinitions
 
     override fun getByRenditionName(renditionName: String): PromenaRenditionDefinition =
-        renditionNameToDefinitionMap[renditionName]
-            ?: throw NoSuchPromenaRenditionDefinitionException(
-                renditionName,
-                promenaRenditionDefinitions
-            )
+        renditionNameToDefinitionMap[renditionName] ?: throw NoSuchPromenaRenditionDefinitionException(renditionName, promenaRenditionDefinitions)
 }

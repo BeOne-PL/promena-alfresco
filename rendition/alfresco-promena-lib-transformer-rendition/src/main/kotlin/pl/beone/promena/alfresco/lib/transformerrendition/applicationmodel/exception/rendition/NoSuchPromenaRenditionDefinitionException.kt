@@ -9,9 +9,7 @@ class NoSuchPromenaRenditionDefinitionException(
     val renditionName: String,
     val promenaRenditionDefinitions: List<PromenaRenditionDefinition>
 ) : NoSuchElementException(
-    "There is no <$renditionName> Promena rendition definition. Available renditions: <[${createDescription(
-        promenaRenditionDefinitions
-    )}]>"
+    "There is no <$renditionName> Promena rendition definition. Available renditions: <[${createDescription(promenaRenditionDefinitions)}]>"
 )
 
 private fun createDescription(promenaRenditionDefinitions: List<PromenaRenditionDefinition>) =

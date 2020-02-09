@@ -68,9 +68,7 @@ class DefaultPromenaRenditionTransformationExecutorTest {
         }
 
         renditionGetter = mockk {
-            every {
-                getRendition(sourceNodeRef, renditionName)
-            } returns childAssociationRef
+            every { getRendition(sourceNodeRef, renditionName) } returns childAssociationRef
         }
 
         promenaRenditionDefinitionGetter = mockk {
@@ -80,21 +78,13 @@ class DefaultPromenaRenditionTransformationExecutorTest {
         }
 
         promenaRenditionInProgressSynchronizer = mockk {
-            every {
-                isInProgress(sourceNodeRef, renditionName)
-            } just Runs
-            every {
-                start(sourceNodeRef, renditionName, transformationExecution)
-            } just Runs
-            every {
-                finish(sourceNodeRef, renditionName)
-            } just Runs
+            every { isInProgress(sourceNodeRef, renditionName) } just Runs
+            every { start(sourceNodeRef, renditionName, transformationExecution) } just Runs
+            every { finish(sourceNodeRef, renditionName) } just Runs
         }
 
         promenaTransformationManager = mockk {
-            every {
-                getResult(transformationExecution, waitMax)
-            } returns transformationExecutionResult
+            every { getResult(transformationExecution, waitMax) } returns transformationExecutionResult
         }
 
     }
@@ -102,9 +92,7 @@ class DefaultPromenaRenditionTransformationExecutorTest {
     @Test
     fun transform() {
         val promenaTransformationExecutor = mockk<PromenaTransformationExecutor> {
-            every {
-                execute(transformation, nodeDescriptor, any(), noRetry())
-            } returns transformationExecution
+            every { execute(transformation, nodeDescriptor, any(), noRetry()) } returns transformationExecution
         }
 
         DefaultPromenaRenditionTransformationExecutor(
@@ -137,9 +125,7 @@ class DefaultPromenaRenditionTransformationExecutorTest {
         val exception = PromenaRenditionInProgressException(nodeDescriptor.nodeRef, renditionName, transformationExecution)
 
         promenaRenditionInProgressSynchronizer = mockk {
-            every {
-                isInProgress(sourceNodeRef, renditionName)
-            } throws exception
+            every { isInProgress(sourceNodeRef, renditionName) } throws exception
         }
 
         shouldNotThrowExactly<PromenaRenditionInProgressException> {
@@ -207,9 +193,7 @@ class DefaultPromenaRenditionTransformationExecutorTest {
         val exception = Exception("message")
 
         val promenaTransformationExecutor = mockk<PromenaTransformationExecutor> {
-            every {
-                execute(transformation, nodeDescriptor, any(), noRetry())
-            } throws exception
+            every { execute(transformation, nodeDescriptor, any(), noRetry()) } throws exception
         }
 
         shouldThrowExactly<Exception> {
@@ -241,9 +225,7 @@ class DefaultPromenaRenditionTransformationExecutorTest {
             PromenaRenditionInProgressException(nodeDescriptor.nodeRef, renditionName, transformationExecution)
 
         promenaRenditionInProgressSynchronizer = mockk {
-            every {
-                isInProgress(sourceNodeRef, renditionName)
-            } throws exception
+            every { isInProgress(sourceNodeRef, renditionName) } throws exception
         }
 
         shouldNotThrowExactly<PromenaRenditionInProgressException> {

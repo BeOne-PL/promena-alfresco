@@ -7,7 +7,7 @@ import org.alfresco.rad.test.AbstractAlfrescoIT
 import org.alfresco.rad.test.AlfrescoTestRunner
 import org.alfresco.service.cmr.repository.ChildAssociationRef
 import org.alfresco.service.cmr.repository.NodeRef
-import org.alfresco.service.namespace.NamespaceService
+import org.alfresco.service.namespace.NamespaceService.CONTENT_MODEL_1_0_URI
 import org.alfresco.service.namespace.QName
 import org.junit.Before
 import org.junit.Test
@@ -15,7 +15,7 @@ import org.junit.runner.RunWith
 import pl.beone.promena.alfresco.lib.transformerrendition.contract.rendition.RenditionGetter
 import pl.beone.promena.alfresco.lib.transformerrendition.external.util.createNameBasedOnDate
 import pl.beone.promena.alfresco.lib.transformerrendition.external.util.createOrGetIntegrationTestsFolder
-import pl.beone.promena.alfresco.module.core.applicationmodel.model.PromenaModel
+import pl.beone.promena.alfresco.module.core.applicationmodel.model.PromenaModel.PROPERTY_RENDITION_NAME
 
 @RunWith(AlfrescoTestRunner::class)
 class PromenaRenditionGetterTest : AbstractAlfrescoIT() {
@@ -43,8 +43,7 @@ class PromenaRenditionGetterTest : AbstractAlfrescoIT() {
         nodeRef2 = integrationTestsFolder.createNode()
         nodeRef2Pdf = nodeRef2.createRenditionNode().setRenditionName("pdf")
 
-        renditionGetter =
-            PromenaRenditionGetter(serviceRegistry.nodeService)
+        renditionGetter = PromenaRenditionGetter(serviceRegistry.nodeService)
     }
 
     @Test
@@ -77,11 +76,11 @@ class PromenaRenditionGetterTest : AbstractAlfrescoIT() {
         serviceRegistry.nodeService.createNode(
             this,
             RenditionModel.ASSOC_RENDITION,
-            QName.createQName(NamespaceService.CONTENT_MODEL_1_0_URI, createNameBasedOnDate()),
+            QName.createQName(CONTENT_MODEL_1_0_URI, createNameBasedOnDate()),
             ContentModel.TYPE_THUMBNAIL,
             emptyMap()
         )
 
     private fun ChildAssociationRef.setRenditionName(renditionName: String): ChildAssociationRef =
-        this.also { serviceRegistry.nodeService.setProperty(this.childRef, PromenaModel.PROPERTY_RENDITION_NAME, renditionName) }
+        this.also { serviceRegistry.nodeService.setProperty(this.childRef, PROPERTY_RENDITION_NAME, renditionName) }
 }

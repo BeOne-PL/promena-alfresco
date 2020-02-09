@@ -30,10 +30,7 @@ class MemoryPromenaRenditionDefinitionGetterTest {
 
         definitions = listOf(doclib, pdf)
 
-        promenaRenditionDefinitionGetter =
-            MemoryPromenaRenditionDefinitionGetter(
-                definitions
-            )
+        promenaRenditionDefinitionGetter = MemoryPromenaRenditionDefinitionGetter(definitions)
     }
 
     @Test

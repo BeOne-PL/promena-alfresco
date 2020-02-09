@@ -8,9 +8,9 @@ This version of `alfresco-promena-rendition` module is suited to Alfresco Conten
 ## Dependency
 ```xml
 <dependency>
-    <groupId>pl.beone.promena.alfresco.module.transformerrendition</groupId>
+    <groupId>pl.beone.promena.alfresco.module.transformer-rendition</groupId>
     <artifactId>alfresco-promena-transformer-rendition_6.2.0</artifactId>
-    <version>1.0.0</version>
+    <version>2.0.0</version>
 </dependency>
 ```
 
@@ -20,9 +20,9 @@ https://oss.sonatype.org/service/local/repo_groups/public/content/pl/beone/prome
 ## Properties
 ```properties
 # Maximum time to complete transformation
-promena.rendition.transformation.timeout=10m
+promena.transformer-rendition.rendition.transformation.timeout=10m
 # Bean name of executor
 #  if you have only one connector installed, you can leave it empty
 #  if you have more than one connector installed, you have to specify name manually
-promena.rendition.transformer.bean.name=
+promena.transformer-rendition.rendition.transformer.bean.name=
 ```

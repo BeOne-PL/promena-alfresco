@@ -83,10 +83,7 @@ class DefaultPromenaRenditionTransformationExecutor(
             val transformationExecution = promenaTransformationExecutor.execute(
                 transformation,
                 creatRenditionNodeDescriptor(nodeRef, renditionName),
-                FinishPostTransformationExecutor(
-                    promenaRenditionInProgressSynchronizer,
-                    renditionName
-                ),
+                FinishPostTransformationExecutor(promenaRenditionInProgressSynchronizer, renditionName),
                 noRetry()
             )
 

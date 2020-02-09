@@ -27,10 +27,7 @@ class PromenaRenditionDefinitionValidatorTest {
         }
 
         shouldNotThrow<IllegalStateException> {
-            PromenaRenditionDefinitionValidator(
-                promenaRenditionDefinitionGetter
-            )
-                .validateUniqueDefinitions()
+            PromenaRenditionDefinitionValidator(promenaRenditionDefinitionGetter).validateUniqueDefinitions()
         }
     }
 
@@ -57,10 +54,7 @@ class PromenaRenditionDefinitionValidatorTest {
         }
 
         with(shouldThrow<IllegalStateException> {
-            PromenaRenditionDefinitionValidator(
-                promenaRenditionDefinitionGetter
-            )
-                .validateUniqueDefinitions()
+            PromenaRenditionDefinitionValidator(promenaRenditionDefinitionGetter).validateUniqueDefinitions()
         }) {
             with(message!!.split("\n")) {
                 this[0] shouldBe "Detected <2> definitions with duplicated rendition name:"

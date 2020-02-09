@@ -5,7 +5,7 @@ import pl.beone.promena.transformer.applicationmodel.mediatype.MediaType
 import pl.beone.promena.transformer.contract.transformation.Transformation
 
 /**
-     * It is the equivalent of [ThumbnailDefinition][org.alfresco.repo.thumbnail.ThumbnailDefinition] in Promena environment.
+ * It is the equivalent of [ThumbnailDefinition][org.alfresco.repo.thumbnail.ThumbnailDefinition] in Promena environment.
  */
 interface PromenaRenditionDefinition {
 

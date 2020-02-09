@@ -22,34 +22,20 @@ class MemoryPromenaRenditionInProgressSynchronizer :
 
     @Synchronized
     override fun start(nodeRef: NodeRef, renditionName: String, transformationExecution: TransformationExecution) {
-        renditions[RenditionKey(
-            nodeRef,
-            renditionName
-        )] = transformationExecution
+        renditions[RenditionKey(nodeRef, renditionName)] = transformationExecution
     }
 
     @Synchronized
     override fun finish(nodeRef: NodeRef, renditionName: String) {
-        renditions.remove(
-            RenditionKey(
-                nodeRef,
-                renditionName
-            )
+        renditions.remove(RenditionKey(nodeRef, renditionName)
         )
     }
 
     @Synchronized
     override fun isInProgress(nodeRef: NodeRef, renditionName: String) {
-        val transformationExecution = renditions[RenditionKey(
-            nodeRef,
-            renditionName
-        )]
+        val transformationExecution = renditions[RenditionKey(nodeRef, renditionName)]
         if (transformationExecution != null) {
-            throw PromenaRenditionInProgressException(
-                nodeRef,
-                renditionName,
-                transformationExecution
-            )
+            throw PromenaRenditionInProgressException(nodeRef, renditionName, transformationExecution)
         }
     }
 }

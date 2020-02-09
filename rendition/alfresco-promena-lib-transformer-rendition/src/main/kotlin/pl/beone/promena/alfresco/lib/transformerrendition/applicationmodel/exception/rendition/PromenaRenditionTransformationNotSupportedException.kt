@@ -22,9 +22,7 @@ class PromenaRenditionTransformationNotSupportedException internal constructor(
 
         @JvmStatic
         fun custom(reason: String): PromenaRenditionTransformationNotSupportedException =
-            PromenaRenditionTransformationNotSupportedException(
-                reason
-            )
+            PromenaRenditionTransformationNotSupportedException(reason)
 
         private fun MediaType.createDescription(): String =
             "(${mimeType}, ${charset.name()})"

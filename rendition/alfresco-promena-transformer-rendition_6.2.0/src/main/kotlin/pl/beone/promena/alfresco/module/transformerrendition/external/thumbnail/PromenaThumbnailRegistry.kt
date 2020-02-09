@@ -69,8 +69,7 @@ internal class PromenaThumbnailRegistry(
         thumbnailDefinition: ThumbnailDefinition
     ): Boolean =
         try {
-            promenaRenditionDefinitionGetter
-                .getByRenditionName(thumbnailDefinition.name)
+            promenaRenditionDefinitionGetter.getByRenditionName(thumbnailDefinition.name)
             true
         } catch (e: NoSuchPromenaRenditionDefinitionException) {
             logger.debug { e.message }
