@@ -11,14 +11,16 @@ Provides [`ActiveMQPromenaTransformationExecutor`](./connector/alfresco-promena-
 ### [`alfresco-promena-connector-http`](./connector/alfresco-promena-connector-http)
 Provides [`HttpPromenaTransformationExecutor`](./connector/alfresco-promena-connector-http/src/main/kotlin/pl/beone/promena/alfresco/module/connector/http/external/HttpPromenaTransformationExecutor.kt) based on HTTP.
 
-### [`alfresco-promena-rendition_6.1.2`](./rendition/alfresco-promena-rendition_6.1.2) & [`alfresco-promena-rendition_6.2.0`](./rendition/alfresco-promena-rendition_6.2.0)
-Replaces the standard Alfresco rendition system with the equivalent in Promena environment. The first one is for Alfresco Content Services 6.1.2 and the second one is for Alfresco Content Services 6.2.0.
+### [`alfresco-promena-transformer-rendition_6.1.2`](./transformer-rendition/alfresco-promena-transformer-rendition_6.1.2) & [`alfresco-promena-transformer-rendition_6.2.0`](./transformer-rendition/alfresco-promena-transformer-rendition_6.2.0)
+Replaces the standard Alfresco Transformer and Rendition system with the equivalent in Promena environment. The first one is for Alfresco Content Services 6.1.2 and the second one is for Alfresco Content Services 6.2.0.
 
-### [`alfresco-promena-predefined-rendition`](./rendition/alfresco-promena-predefined-rendition)
-Provides `avatar32`, `avatar`, `imgpreview`, `doclib`, `medium` and `pdf` renditions.
+### [`alfresco-promena-transformer-rendition-predefined`](./transformer-rendition/alfresco-promena-transformer-rendition-predefined)
+Provides the equivalent to standard Alfresco Transformer and Rendition functionality:
+* Rendition - `avatar32`, `avatar`, `imgpreview`, `doclib`, `medium` and `pdf`
+* Content Transformer - conversion between various document formats
 
 ## [Development Guide](./DEVELOPMENT-GUIDE.md)
-Explains and demonstrates how to implement custom solutions such as a connector, a rendition or a metadata saver.
+Explains and demonstrates how to implement custom solutions such as a connector, a content transformer, a rendition and a metadata saver.
 
 ## [Sample#Alfresco](https://github.com/BeOne-PL/promena-sample#alfresco)
-There are several samples that demonstrate how to integrate Alfresco with Promena divided into 3 categories: communication, connector and rendition.
+There are several samples that demonstrate how to integrate Alfresco with Promena divided into 3 categories: communication, connector and transformer & rendition.

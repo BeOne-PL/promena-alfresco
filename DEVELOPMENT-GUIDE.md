@@ -13,7 +13,7 @@ The typical flow that a connector should implement:
 8. Return [`TransformationExecution`](./alfresco-promena-core/src/main/kotlin/pl/beone/promena/alfresco/module/core/applicationmodel/transformation/TransformationExecution.kt) from step 6
 
 The flow of an asynchronous transaction execution:
-1. **Perform the transformation on Promena depending on the connector** *your job*
+1. **Perform the transformation on Promena depending on the connector** - *your task*
 2. Verify if the nodes from `nodeDescriptor` still exist [[`NodesExistenceVerifier`](./alfresco-promena-core/src/main/kotlin/pl/beone/promena/alfresco/module/core/contract/node/NodesExistenceVerifier.kt), [`DefaultNodesExistenceVerifier`](./alfresco-promena-core/src/main/kotlin/pl/beone/promena/alfresco/module/core/external/node/DefaultNodesExistenceVerifier.kt) implementation, `defaultNodesExistenceVerifier` bean name]
 3. Check if the checksum of the nodes from `nodeDescriptor` haven't changed [[`NodesChecksumGenerator`](./alfresco-promena-core/src/main/kotlin/pl/beone/promena/alfresco/module/core/contract/node/NodesChecksumGenerator.kt), [`RenditionContentNodesChecksumGenerator`](./alfresco-promena-core/src/main/kotlin/pl/beone/promena/alfresco/module/core/external/node/RenditionContentNodesChecksumGenerator.kt) implementation, `renditionContentNodesChecksumGenerator` bean name]
 4. Save the results of the transformation execution [[`TransformedDataDescriptorSaver`](./alfresco-promena-core/src/main/kotlin/pl/beone/promena/alfresco/module/core/contract/node/TransformedDataDescriptorSaver.kt), [`MinimalRenditionTransformedDataDescriptorSaver`](./alfresco-promena-core/src/main/kotlin/pl/beone/promena/alfresco/module/core/external/node/MinimalRenditionTransformedDataDescriptorSaver.kt) implementation, `minimalRenditionTransformedDataDescriptorSaver` bean name]
@@ -28,23 +28,32 @@ The flow of an asynchronous transaction execution:
 * [`ActiveMQPromenaTransformationExecutor`](./connector/alfresco-promena-connector-activemq/src/main/kotlin/pl/beone/promena/alfresco/module/connector/activemq/external/transformation/ActiveMQPromenaTransformationExecutor.kt) [[`TransformerSender`](./connector/alfresco-promena-connector-activemq/src/main/kotlin/pl/beone/promena/alfresco/module/connector/activemq/delivery/activemq/TransformerSender.kt), [`TransformerResponseConsumer`](./connector/alfresco-promena-connector-activemq/src/main/kotlin/pl/beone/promena/alfresco/module/connector/activemq/delivery/activemq/TransformerResponseConsumer.kt), [`TransformerResponseErrorConsumer`](./connector/alfresco-promena-connector-activemq/src/main/kotlin/pl/beone/promena/alfresco/module/connector/activemq/delivery/activemq/TransformerResponseErrorConsumer.kt)]
 
 ## Metadata saver
-A custom metadata saver can be provided by implementing [`PromenaTransformationMetadataSaver`](/Users/skotar/Projekty/Promena/promena-alfresco/alfresco-promena-core/src/main/kotlin/pl/beone/promena/alfresco/module/core/contract/transformation/PromenaTransformationMetadataSaver.kt) and registering as a bean.
+A custom metadata saver can be provided by implementing [`PromenaTransformationMetadataSaver`](./alfresco-promena-core/src/main/kotlin/pl/beone/promena/alfresco/module/core/contract/transformation/PromenaTransformationMetadataSaver.kt) and registering as a bean.
 
 All registered metadata savers are executed after saving the results of a transformation execution.
 
 ### Example
-* [`RenditionPromenaTransformationMetadataSaver`](./rendition/alfresco-promena-lib-rendition/src/main/kotlin/pl/beone/promena/alfresco/lib/rendition/external/transformation/RenditionPromenaTransformationMetadataSaver.kt)
+* [`RenditionPromenaTransformationMetadataSaver`](./transformer-rendition/alfresco-promena-lib-transformer-rendition/src/main/kotlin/pl/beone/promena/alfresco/lib/transformerrendition/external/rendition/transformation/RenditionPromenaTransformationMetadataSaver.kt)
 * [`BarcodeDetectorPromenaTransformationMetadataSaver`](https://github.com/BeOne-PL/promena-transformer-barcode-detector-metadata-alfresco/blob/master/src/main/kotlin/pl/beone/promena/alfresco/module/transformer/barcodedetector/external/transformation/BarcodeDetectorPromenaTransformationMetadataSaver.kt)
    
-## Rendition definition
-A custom rendition definition can be provided by implementing [`PromenaRenditionDefinition`](./rendition/alfresco-promena-lib-rendition/src/main/kotlin/pl/beone/promena/alfresco/lib/rendition/contract/definition/PromenaRenditionDefinition.kt) and registering it as a bean. 
+## Definition
+### Rendition
+A custom rendition definition can be provided by implementing [`PromenaRenditionDefinition`](./transformer-rendition/alfresco-promena-lib-transformer-rendition/src/main/kotlin/pl/beone/promena/alfresco/lib/transformerrendition/contract/rendition/definition/PromenaRenditionDefinition.kt) and registering it as a bean. 
 
-This interface is the equivalent of [`ThumbnailDefinition`](https://github.com/Alfresco/alfresco-repository/blob/alfresco-repository-7.43/src/main/java/org/alfresco/repo/thumbnail/ThumbnailRegistry.java) in Promena environment.
+It is the equivalent of [`ThumbnailDefinition`](https://github.com/Alfresco/alfresco-repository/blob/alfresco-repository-7.43/src/main/java/org/alfresco/repo/thumbnail/ThumbnailRegistry.java) in Promena environment.
+
+#### Example
+* [`Avatar32PromenaRenditionDefinition`](./transformer-rendition/alfresco-promena-transformer-rendition-predefined/src/main/kotlin/pl/beone/promena/alfresco/module/transformerrendition/predefined/internal/rendition/definition/image/Avatar32PromenaRenditionDefinition.kt)
+* [`AvatarPromenaRenditionDefinition`](./transformer-rendition/alfresco-promena-transformer-rendition-predefined/src/main/kotlin/pl/beone/promena/alfresco/module/transformerrendition/predefined/internal/rendition/definition/image/AvatarPromenaRenditionDefinition.kt)
+* [`ImgPreviewPromenaRenditionDefinition`](./transformer-rendition/alfresco-promena-transformer-rendition-predefined/src/main/kotlin/pl/beone/promena/alfresco/module/transformerrendition/predefined/internal/rendition/definition/image/ImgPreviewPromenaRenditionDefinition.kt)
+* [`DocLibPromenaRenditionDefinition`](./transformer-rendition/alfresco-promena-transformer-rendition-predefined/src/main/kotlin/pl/beone/promena/alfresco/module/transformerrendition/predefined/internal/rendition/definition/image/DocLibPromenaRenditionDefinition.kt)
+* [`MediumPromenaRenditionDefinition`](./transformer-rendition/alfresco-promena-transformer-rendition-predefined/src/main/kotlin/pl/beone/promena/alfresco/module/transformerrendition/predefined/internal/rendition/definition/image/MediumPromenaRenditionDefinition.kt)
+* [`PdfPromenaRenditionDefinition`](./transformer-rendition/alfresco-promena-transformer-rendition-predefined/src/main/kotlin/pl/beone/promena/alfresco/module/transformerrendition/predefined/internal/rendition/definition/pdf/PdfPromenaRenditionDefinition.kt)
+
+### Content Transformer
+A custom content transformer definition can be provided by implementing [`PromenaContentTransformerDefinition`](./transformer-rendition/alfresco-promena-lib-transformer-rendition/src/main/kotlin/pl/beone/promena/alfresco/lib/transformerrendition/contract/transformer/definition/PromenaContentTransformerDefinition.kt) and registering it as a bean. 
+
+It provides the equivalent to Alfresco Content Transformer in Promena environment and it is used by [ContentTransformerRegistry](https://github.com/Alfresco/alfresco-repository/blob/alfresco-repository-7.43/src/main/java/org/alfresco/repo/content/transform/ContentTransformerRegistry.java) to perform a transformation (visit [Content Transformers (and Renditions)](https://docs.alfresco.com/6.2/references/dev-extension-points-content-transformer.html) for more details).
 
 ### Example
-* [`Avatar32PromenaRenditionDefinition`](./rendition/alfresco-promena-predefined-rendition/src/main/kotlin/pl/beone/promena/alfresco/module/rendition/predefined/internal/definition/image/Avatar32PromenaRenditionDefinition.kt)
-* [`AvatarPromenaRenditionDefinition`](./rendition/alfresco-promena-predefined-rendition/src/main/kotlin/pl/beone/promena/alfresco/module/rendition/predefined/internal/definition/image/AvatarPromenaRenditionDefinition.kt)
-* [`ImgPreviewPromenaRenditionDefinition`](./rendition/alfresco-promena-predefined-rendition/src/main/kotlin/pl/beone/promena/alfresco/module/rendition/predefined/internal/definition/image/ImgPreviewPromenaRenditionDefinition.kt)
-* [`DocLibPromenaRenditionDefinition`](./rendition/alfresco-promena-predefined-rendition/src/main/kotlin/pl/beone/promena/alfresco/module/rendition/predefined/internal/definition/image/DocLibPromenaRenditionDefinition.kt)
-* [`MediumPromenaRenditionDefinition`](./rendition/alfresco-promena-predefined-rendition/src/main/kotlin/pl/beone/promena/alfresco/module/rendition/predefined/internal/definition/image/MediumPromenaRenditionDefinition.kt)
-* [`PdfPromenaRenditionDefinition`](./rendition/alfresco-promena-predefined-rendition/src/main/kotlin/pl/beone/promena/alfresco/module/rendition/predefined/internal/definition/pdf/PdfPromenaRenditionDefinition.kt)
+* [`DocumentPromenaContentTransformerDefinition`](./transformer-rendition/alfresco-promena-transformer-rendition-predefined/src/main/kotlin/pl/beone/promena/alfresco/module/transformerrendition/predefined/internal/transformer/definition/DocumentPromenaContentTransformerDefinition.kt)
