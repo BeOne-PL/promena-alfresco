@@ -11,7 +11,7 @@ import pl.beone.promena.transformer.converter.libreoffice.applicationmodel.libre
 import pl.beone.promena.transformer.internal.model.parameters.emptyParameters
 
 /**
- * Provides the equivalent of `pdf` Alfresco Content Services rendition.
+ * Provides the equivalent to `pdf` Alfresco Content Services rendition.
  */
 class PdfPromenaRenditionDefinition() : PromenaRenditionDefinition {
 

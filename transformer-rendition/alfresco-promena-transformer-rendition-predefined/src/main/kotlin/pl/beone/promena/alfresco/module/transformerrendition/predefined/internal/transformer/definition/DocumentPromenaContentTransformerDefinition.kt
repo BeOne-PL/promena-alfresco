@@ -13,6 +13,10 @@ import pl.beone.promena.transformer.converter.pdfbox.applicationmodel.PdfBoxConv
 import pl.beone.promena.transformer.converter.pdfbox.applicationmodel.pdfBoxConverterTransformation
 import pl.beone.promena.transformer.internal.model.parameters.emptyParameters
 
+/**
+ * Provides the equivalent to Alfresco Content Transformer that converts between various document formats using
+ * `converter - LibreOffice` and `converter - PDFBox` transformers.
+ */
 object DocumentPromenaContentTransformerDefinition : PromenaContentTransformerDefinition {
 
     override fun getTransformation(mediaType: MediaType, targetMediaType: MediaType): Transformation =

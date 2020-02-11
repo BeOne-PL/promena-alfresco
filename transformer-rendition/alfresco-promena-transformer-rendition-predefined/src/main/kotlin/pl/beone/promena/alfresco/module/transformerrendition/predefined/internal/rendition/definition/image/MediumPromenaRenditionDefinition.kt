@@ -10,7 +10,7 @@ import pl.beone.promena.transformer.converter.imagemagick.applicationmodel.image
 import pl.beone.promena.transformer.converter.imagemagick.applicationmodel.imageMagickConverterTransformation
 
 /**
- * Provides the equivalent of `medium` Alfresco Content Services rendition.
+ * Provides the equivalent to `medium` Alfresco Rendition.
  */
 object MediumPromenaRenditionDefinition : PromenaRenditionDefinition {
 

@@ -10,7 +10,7 @@ import pl.beone.promena.transformer.converter.imagemagick.applicationmodel.image
 import pl.beone.promena.transformer.converter.imagemagick.applicationmodel.imageMagickConverterTransformation
 
 /**
- * Provides the equivalent of `avatar32` Alfresco Content Services rendition.
+ * Provides the equivalent to `avatar32` Alfresco Rendition.
  */
 object Avatar32PromenaRenditionDefinition : PromenaRenditionDefinition {
 
