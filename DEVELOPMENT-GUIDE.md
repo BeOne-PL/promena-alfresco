@@ -55,5 +55,5 @@ A custom content transformer definition can be provided by implementing [`Promen
 
 It provides the equivalent to Alfresco Content Transformer in Promena environment and it is used by [ContentTransformerRegistry](https://github.com/Alfresco/alfresco-repository/blob/alfresco-repository-7.43/src/main/java/org/alfresco/repo/content/transform/ContentTransformerRegistry.java) to perform a transformation (visit [Content Transformers (and Renditions)](https://docs.alfresco.com/6.2/references/dev-extension-points-content-transformer.html) for more details).
 
-### Example
+#### Example
 * [`DocumentPromenaContentTransformerDefinition`](./transformer-rendition/alfresco-promena-transformer-rendition-predefined/src/main/kotlin/pl/beone/promena/alfresco/module/transformerrendition/predefined/internal/transformer/definition/DocumentPromenaContentTransformerDefinition.kt)

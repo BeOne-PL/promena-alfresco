@@ -18,6 +18,7 @@ This version of `alfresco-promena-transformer-rendition` module is suited to Alf
 
 ## AMP
 https://oss.sonatype.org/service/local/repositories/releases/content/pl/beone/promena/alfresco/module/transformer-rendition/alfresco-promena-transformer-rendition_6.2.0/2.0.1/alfresco-promena-transformer-rendition_6.2.0-2.0.1.amp
+
 ## Properties
 ```properties
 # Maximum time to complete transformation
