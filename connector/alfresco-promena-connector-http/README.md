@@ -13,7 +13,7 @@ It implements the client side of [`promena-connector-http`](https://github.com/B
 ```
 
 ## AMP
-https://oss.sonatype.org/service/local/repo_groups/public/content/pl/beone/promena/alfresco/module/connector/alfresco-promena-connector-http/1.0.0/alfresco-promena-connector-http-1.0.0.amp
+https://oss.sonatype.org/service/local/repositories/releases/content/pl/beone/promena/alfresco/module/connector/alfresco-promena-connector-http/1.0.0/alfresco-promena-connector-http-1.0.0.amp
 
 ## Properties
 ```properties

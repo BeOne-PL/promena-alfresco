@@ -36,7 +36,7 @@ class ContentPropertyDataDescriptorGetter(
     private fun convertToSingleDataDescriptor(nodeDescriptor: NodeDescriptor.Single): DataDescriptor.Single {
         val contentReader = serviceRegistry.contentService.getReader(nodeDescriptor.nodeRef, PROP_CONTENT)
             .also { checkIfNodeHasContent(nodeDescriptor.nodeRef, it) }
-        val mediaType = mediaType(contentReader.mimetype, contentReader.encoding)
+        val mediaType = mediaType(contentReader.mimetype, contentReader.encoding ?: Charsets.UTF_8.name())
 
         return singleDataDescriptor(dataConverter.createData(contentReader), mediaType, nodeDescriptor.metadata)
     }

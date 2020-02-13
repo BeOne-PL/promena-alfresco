@@ -5,7 +5,7 @@
 
     <groupId>pl.beone.promena.alfresco.module</groupId>
     <artifactId>alfresco-promena-core</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <packaging>jar</packaging>
 
     <name>pl.beone.promena.alfresco.module:alfresco-promena-core</name>

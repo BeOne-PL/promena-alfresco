@@ -30,12 +30,12 @@ You can implement [`PromenaTransformationMetadataSaver`](./src/main/kotlin/pl/be
 <dependency>
     <groupId>pl.beone.promena.alfresco.module</groupId>
     <artifactId>alfresco-promena-core</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
 ## AMP
-https://oss.sonatype.org/service/local/repo_groups/public/content/pl/beone/promena/alfresco/module/alfresco-promena-core/1.0.0/alfresco-promena-core-1.0.0.amp
+https://oss.sonatype.org/service/local/repositories/releases/content/pl/beone/promena/alfresco/module/alfresco-promena-core/1.0.1/alfresco-promena-core-1.0.1.amp
 
 ## Properties
 ```properties
@@ -58,7 +58,7 @@ promena.core.transformation.manager.persist-in-alfresco=true
 # Size of memory buffer
 promena.core.transformation.manager.buffer-size=1000
 # Maximum waiting time for the end of transformation and result 
-promena.core.transformation.manager.wait-max=1m
+promena.core.transformation.manager.wait-max=10m
 
 # Empty node is created if there is no result of transformation
 promena.core.transformation.save-if-zero=true
