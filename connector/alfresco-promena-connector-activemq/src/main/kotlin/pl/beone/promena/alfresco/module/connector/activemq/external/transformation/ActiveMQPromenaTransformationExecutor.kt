@@ -3,6 +3,10 @@ package pl.beone.promena.alfresco.module.connector.activemq.external.transformat
 import mu.KotlinLogging
 import org.alfresco.service.ServiceRegistry
 import org.alfresco.service.cmr.repository.NodeRef
+import org.springframework.beans.factory.annotation.Qualifier
+import org.springframework.context.ApplicationContext
+import org.springframework.context.ApplicationContextAware
+import pl.beone.promena.alfresco.module.connector.activemq.configuration.service.ContextProvider
 import pl.beone.promena.alfresco.module.connector.activemq.delivery.activemq.TransformerSender
 import pl.beone.promena.alfresco.module.core.applicationmodel.model.PromenaModel.PROPERTY_EXECUTION_IDS
 import pl.beone.promena.alfresco.module.core.applicationmodel.node.NodeDescriptor
@@ -17,12 +21,15 @@ import pl.beone.promena.alfresco.module.core.contract.transformation.PromenaTran
 import pl.beone.promena.alfresco.module.core.contract.transformation.PromenaTransformationManager.PromenaMutableTransformationManager
 import pl.beone.promena.alfresco.module.core.contract.transformation.post.PostTransformationExecutor
 import pl.beone.promena.alfresco.module.core.contract.transformation.post.PostTransformationExecutorValidator
+import pl.beone.promena.alfresco.module.core.extension.getPropertyWithEmptySupport
+import pl.beone.promena.alfresco.module.core.extension.getRequiredPropertyWithResolvedPlaceholders
 import pl.beone.promena.alfresco.module.core.extension.start
 import pl.beone.promena.core.applicationmodel.transformation.transformationDescriptor
 import pl.beone.promena.transformer.contract.communication.CommunicationParameters
 import pl.beone.promena.transformer.contract.data.DataDescriptor
 import pl.beone.promena.transformer.contract.transformation.Transformation
 import java.io.Serializable
+import java.util.*
 
 /**
  * Provides ActiveMQ bridge between Alfresco Content Services and Promena.
@@ -66,24 +73,29 @@ class ActiveMQPromenaTransformationExecutor(
         private val logger = KotlinLogging.logger {}
     }
 
-    override fun execute(
+    fun execute(
         transformation: Transformation,
         nodeDescriptor: NodeDescriptor,
         postTransformationExecutor: PostTransformationExecutor?,
-        retry: Retry?
+        retry: Retry?,
+        priority: Int
     ): TransformationExecution {
         val nodeRefs = nodeDescriptor.toNodeRefs()
 
         postTransformationExecutor?.let(postTransformationExecutorValidator::validate)
+
         nodeRefs.forEach(nodeInCurrentTransactionVerifier::verify)
 
         val nodesChecksum = nodesChecksumGenerator.generate(nodeRefs)
         val userName = authorizationService.getCurrentUser()
-
         val dataDescriptor = dataDescriptorGetter.get(nodeDescriptor)
-
         val transformationExecution = promenaMutableTransformationManager.startTransformation()
-        addExecutionIdInNewTransaction(nodeRefs, transformationExecution.id)
+
+        val saveExecutionId = ContextProvider.getContext()!!.beanFactory.resolveEmbeddedValue("\${promena.connector.activemq.spring.jms.save-execution-id}").toBoolean()
+
+        if (saveExecutionId) {
+            addExecutionIdInNewTransaction(nodeRefs, transformationExecution.id)
+        }
 
         logger.start(transformation, nodeDescriptor)
 
@@ -98,9 +110,24 @@ class ActiveMQPromenaTransformationExecutor(
             userName
         )
 
-        execute(transformationExecution.id, transformation, dataDescriptor, transformationParameters)
+        execute(
+            transformationExecution.id,
+            transformation,
+            dataDescriptor,
+            transformationParameters,
+            priority
+        )
 
         return transformationExecution
+    }
+
+    override fun execute(
+        transformation: Transformation,
+        nodeDescriptor: NodeDescriptor,
+        postTransformationExecutor: PostTransformationExecutor?,
+        retry: Retry?
+    ): TransformationExecution {
+        return execute(transformation, nodeDescriptor, postTransformationExecutor, retry, 4);
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -119,12 +146,14 @@ class ActiveMQPromenaTransformationExecutor(
         executionId: String,
         transformation: Transformation,
         dataDescriptor: DataDescriptor,
-        transformationParameters: TransformationParameters
+        transformationParameters: TransformationParameters,
+        priority: Int = 4
     ) {
         transformerSender.send(
             executionId,
             transformationDescriptor(transformation, dataDescriptor, externalCommunicationParameters),
-            transformationParameters
+            transformationParameters,
+            priority
         )
     }
 

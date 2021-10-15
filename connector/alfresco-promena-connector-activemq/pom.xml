@@ -5,7 +5,7 @@
 
     <groupId>pl.beone.promena.alfresco.module.connector</groupId>
     <artifactId>alfresco-promena-connector-activemq</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <packaging>jar</packaging>
 
     <name>pl.beone.promena.alfresco.module.connector:alfresco-promena-connector-activemq</name>
