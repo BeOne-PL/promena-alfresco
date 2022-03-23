@@ -20,6 +20,7 @@ import java.io.File
  */
 class MemoryOrFileDataConverter(
     private val externalCommunicationId: String,
+    private val isAlfDataMountedToPromena: Boolean,
     private val externalCommunicationDirectory: File? = null
 ) : DataConverter {
 
@@ -30,7 +31,8 @@ class MemoryOrFileDataConverter(
     override fun createData(contentReader: ContentReader): Data =
         if (externalCommunicationId == FileCommunicationParametersConstants.ID) {
             if (contentReader is FileContentReader) {
-                FileData.of(contentReader.contentInputStream, externalCommunicationDirectory!!)
+                if (isAlfDataMountedToPromena) FileData.of(contentReader.file)
+                else FileData.of(contentReader.contentInputStream, externalCommunicationDirectory!!)
             } else {
                 logger.warn { "Content reader type isn't FileContentReader (<${contentReader::class.java.simpleName}>). Implementation <MemoryData> will be use as back pressure" }
                 contentReader.toMemoryData()

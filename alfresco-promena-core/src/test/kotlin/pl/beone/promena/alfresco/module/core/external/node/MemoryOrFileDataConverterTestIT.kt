@@ -23,7 +23,7 @@ class MemoryOrFileDataConverterTestIT : AbstractUtilsAlfrescoIT() {
         }
 
         with(
-            MemoryOrFileDataConverter(MemoryCommunicationParametersConstants.ID)
+            MemoryOrFileDataConverter(MemoryCommunicationParametersConstants.ID, false)
                 .createData(node.getContentReader())
         ) {
             getBytes() shouldBe "test".toByteArray()
@@ -41,7 +41,7 @@ class MemoryOrFileDataConverterTestIT : AbstractUtilsAlfrescoIT() {
             }
 
             with(
-                MemoryOrFileDataConverter(FileCommunicationParametersConstants.ID, tmpDir)
+                MemoryOrFileDataConverter(FileCommunicationParametersConstants.ID, false, tmpDir)
                     .createData(node.getContentReader())
             ) {
                 getBytes() shouldBe "test".toByteArray()
@@ -58,7 +58,7 @@ class MemoryOrFileDataConverterTestIT : AbstractUtilsAlfrescoIT() {
 
         val data = "test".toMemoryData()
 
-        MemoryOrFileDataConverter(MemoryCommunicationParametersConstants.ID, null)
+        MemoryOrFileDataConverter(MemoryCommunicationParametersConstants.ID, false)
             .saveDataInContentWriter(data, node.getContentWriter())
 
         node.readContent() shouldBe "test".toByteArray()
@@ -70,7 +70,7 @@ class MemoryOrFileDataConverterTestIT : AbstractUtilsAlfrescoIT() {
 
         val data = FileData.of("test".byteInputStream(), createTempDir())
 
-        MemoryOrFileDataConverter(MemoryCommunicationParametersConstants.ID, null)
+        MemoryOrFileDataConverter(MemoryCommunicationParametersConstants.ID, false)
             .saveDataInContentWriter(data, node.getContentWriter())
 
         java.io.File(data.getLocation()).exists() shouldBe true

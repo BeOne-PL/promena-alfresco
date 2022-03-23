@@ -46,7 +46,7 @@ import java.util.*
  * 8. Returns [TransformationExecution]
  *
  * The flow of an asynchronous transaction execution:
- * 1. Performs a transformation on Promena ([HttpPromenaTransformer.execute])
+ * 1. Performs a transformation on Promena ([ActiveMQPromenaTransformer.execute])
  * 2. Verifies if the nodes from `nodeDescriptor` still exist
  * 3. Checks if the checksum of the nodes from `nodeDescriptor` haven't changed
  * 4. Saves the results of the transformation execution

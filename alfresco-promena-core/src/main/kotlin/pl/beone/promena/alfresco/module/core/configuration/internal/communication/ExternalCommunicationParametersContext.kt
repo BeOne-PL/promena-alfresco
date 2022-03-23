@@ -30,10 +30,11 @@ class ExternalCommunicationParametersContext {
                 memoryCommunicationParameters()
             }
             FileCommunicationParametersConstants.ID -> {
+                val isAlfDataMounted = properties.getRequiredPropertyWithResolvedPlaceholders("promena.core.communication.external.file.alfdata.mounted").toBoolean()
                 val directory =
                     determineDirectory(properties.getRequiredPropertyWithResolvedPlaceholders("promena.core.communication.external.file.directory.path"))
-                logger.info { "Promena external communication: <${FileCommunicationParametersConstants.ID}, ${FileCommunicationParametersConstants.DIRECTORY_KEY}: ${directory}>" }
-                fileCommunicationParameters(directory)
+                logger.info { "Promena external communication: <${FileCommunicationParametersConstants.ID}, ${FileCommunicationParametersConstants.DIRECTORY_KEY}: ${directory}, ${FileCommunicationParametersConstants.IS_ALFDATA_MOUNTED_KEY}: $isAlfDataMounted>" }
+                fileCommunicationParameters(directory, isAlfDataMounted)
             }
             else ->
                 error("External communication must be <${MemoryCommunicationParametersConstants.ID}> or <${FileCommunicationParametersConstants.ID}>")

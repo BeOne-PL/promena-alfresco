@@ -684,6 +684,11 @@
         -->
     <repositories>
         <repository>
+            <id>atlassian</id>
+            <url>https://packages.atlassian.com/maven-external/</url>
+        </repository>
+
+        <repository>
             <id>alfresco-public</id>
             <url>https://artifacts.alfresco.com/nexus/content/groups/public</url>
         </repository>
