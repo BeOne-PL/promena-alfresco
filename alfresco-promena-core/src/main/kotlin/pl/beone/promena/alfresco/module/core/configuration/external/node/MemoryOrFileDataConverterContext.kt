@@ -6,7 +6,7 @@ import org.springframework.context.annotation.Configuration
 import pl.beone.promena.alfresco.module.core.external.node.MemoryOrFileDataConverter
 import pl.beone.promena.communication.file.model.contract.FileCommunicationParametersConstants
 import pl.beone.promena.communication.file.model.internal.getDirectory
-import pl.beone.promena.communication.file.model.internal.getIsAlfdataMounted
+import pl.beone.promena.communication.file.model.internal.getIsSourceFileVolumeMounted
 import pl.beone.promena.transformer.contract.communication.CommunicationParameters
 import java.io.File
 
@@ -19,7 +19,7 @@ class MemoryOrFileDataConverterContext {
     ): MemoryOrFileDataConverter =
         MemoryOrFileDataConverter(
             externalCommunicationParameters.getId(),
-            externalCommunicationParameters.getIsAlfdataMounted(),
+            externalCommunicationParameters.getIsSourceFileVolumeMounted(),
             getDirectoryIfFileOrNull(externalCommunicationParameters)
         )
 
